@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 public class Controller : MonoBehaviour {
 
@@ -40,31 +41,31 @@ public class Controller : MonoBehaviour {
 
     void MoveForward()
     {
-
+        throw new NotImplementedException();
     }
 
     void MoveLeft()
     {
-
+        throw new NotImplementedException();
     }
 
     void MoveBackward()
     {
-
+        throw new NotImplementedException();
     }
 
     void MoveRight()
     {
-
+        throw new NotImplementedException();
     }
 
     void LeftClick()
     {
-
+        throw new NotImplementedException();
     }
 
     void RightClick()
     {
-
+        throw new NotImplementedException();
     }
 }
