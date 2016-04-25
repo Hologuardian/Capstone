@@ -15,7 +15,7 @@ public class GenerateHeightmap : MonoBehaviour {
     {
         seed = (float)rand.Next(99999);
         StartCoroutine("MakeTerrain", new Vector4(0,0,0,0));
-        int max = 40;
+        int max = 4;
         for (int n = 1; n < max; n++)
         {
             for(int i = 0; i <= n; i++)
@@ -102,7 +102,7 @@ public class GenerateHeightmap : MonoBehaviour {
                 float s = Mathf.PerlinNoise(xCoord / 1000.0f, zCoord / 1000.0f) * 0.95f + 0.05f;
                 h = h * (s * s * s * (s * (s * 6 - 15) + 10));
                 heightMap[j, i] = h;
-                //SpawnDetails((int)x + i, (int)z + j, (int)(h * 20));
+                SpawnDetails((int)(u + i) * 8, (int)(v + j) * 8, (int)(h * 1200));
             }
         }
         yield return new WaitForSeconds(0);
@@ -149,8 +149,13 @@ public class GenerateHeightmap : MonoBehaviour {
         return new Vector2(pos.x, pos.z);
     }
 
+
+    public GameObject tree = null;
     void SpawnDetails(int x, int z, int h)
     {
-        
+        if(h < 300 && x % (rand.Next(10) + 20) == 0 && z % (rand.Next(10) + 20) == 0)
+        {
+            Instantiate(tree, new Vector3(x, h + 5, z), Quaternion.identity);
+        }
     }
 }
