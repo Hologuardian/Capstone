@@ -15,7 +15,7 @@ public class GenerateHeightmap : MonoBehaviour {
     {
         seed = (float)rand.Next(99999);
         StartCoroutine("MakeTerrain", new Vector4(0,0,0,0));
-        int max = 4;
+        int max = 32;
         for (int n = 1; n < max; n++)
         {
             for(int i = 0; i <= n; i++)
@@ -35,7 +35,7 @@ public class GenerateHeightmap : MonoBehaviour {
         if(numChunks > lastSeenChunks && genOrder.Count > 0)
         {
             Vector2 v = genOrder[0];
-            StartCoroutine("MakeTerrain", new Vector4(v.x * 1024, v.y * 1024, 128 * v.x, 128 * v.y));
+            StartCoroutine("MakeTerrain", new Vector4(v.x * 512, v.y * 512, 128 * v.x, 128 * v.y));
             genOrder.RemoveAt(0);
             lastSeenChunks = numChunks;
         }
@@ -59,7 +59,7 @@ public class GenerateHeightmap : MonoBehaviour {
 
         TerrainData td = new TerrainData();
 
-        td.size = new Vector3(256, 1200, 256);
+        td.size = new Vector3(128, 600, 128);
         td.heightmapResolution = 129;
         td.alphamapResolution = 129;
         //td.baseMapResolution = 1024;
@@ -102,7 +102,7 @@ public class GenerateHeightmap : MonoBehaviour {
                 float s = Mathf.PerlinNoise(xCoord / 1000.0f, zCoord / 1000.0f) * 0.95f + 0.05f;
                 h = h * (s * s * s * (s * (s * 6 - 15) + 10));
                 heightMap[j, i] = h;
-                SpawnDetails((int)(u + i) * 8, (int)(v + j) * 8, (int)(h * 1200));
+                SpawnDetails((int)(u + i) * 4, (int)(v + j) * 4, (int)(h * 600));
             }
         }
         yield return new WaitForSeconds(0);
@@ -153,7 +153,7 @@ public class GenerateHeightmap : MonoBehaviour {
     public GameObject tree = null;
     void SpawnDetails(int x, int z, int h)
     {
-        if(h < 300 && x % (rand.Next(10) + 20) == 0 && z % (rand.Next(10) + 20) == 0)
+        if(h < 250 && x % (rand.Next(10) + 20) == 0 && z % (rand.Next(10) + 20) == 0)
         {
             Instantiate(tree, new Vector3(x, h + 5, z), Quaternion.identity);
         }
