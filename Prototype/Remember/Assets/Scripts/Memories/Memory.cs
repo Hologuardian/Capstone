@@ -4,15 +4,23 @@ using System;
 
 public class Memory
 {
-    public int ID;
-
-    public Memory[] getChildren()
+    private ID id;
+    public ID Id
     {
-        throw new NotImplementedException();
+        get { return id; }
+        set { id = value; }
     }
 
-    public Memory[] getParents()
+    private Texture memories;
+    public Texture Memories
     {
-        throw new NotImplementedException();
+        get { return memories; }
+        set { memories = value; }
+    }
+    private AudioClip sound;
+    public AudioClip Sound
+    {
+        get { return sound; }
+        set { sound = value; }
     }
 }
