@@ -76,7 +76,7 @@ public static class ItemFactory
                 return new Item()
                 {
                     ID = id,
-                    Icon = Resources.Load<Texture>("icons/Armour"),
+                    Icon = Resources.Load<Texture>("icons/Armor"),
                     MaxStack = 0,
                     StackSize = 0,
                     Name = "",
@@ -86,7 +86,7 @@ public static class ItemFactory
                 return new Item()
                 {
                     ID = id,
-                    Icon = Resources.Load<Texture>("icons/Structures"),
+                    Icon = Resources.Load<Texture>("icons/Building"),
                     MaxStack = 0,
                     StackSize = 0,
                     Name = "",
@@ -97,8 +97,8 @@ public static class ItemFactory
                 {
                     ID = id,
                     Icon = Resources.Load<Texture>("icons/IronAxe"),
-                    MaxStack = 0,
-                    StackSize = 0,
+                    MaxStack = 1,
+                    StackSize = amount,
                     Name = "",
                     Description = ""
                 };
@@ -111,6 +111,66 @@ public static class ItemFactory
                     StackSize = 0,
                     Name = "",
                     Description = ""
+                };
+            case ID.WoodSword:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/woodSword"),
+                    MaxStack = 1,
+                    StackSize = amount,
+                    Name = "Wooden Sword",
+                    Description = "A sword made out of wood, not very strong."
+                };
+            case ID.StoneSword:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/stoneSword"),
+                    MaxStack = 1,
+                    StackSize = amount,
+                    Name = "Stone Sword",
+                    Description = "A sword made out of stone."
+                };
+            case ID.IronSword:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/ironSword"),
+                    MaxStack = 1,
+                    StackSize = amount,
+                    Name = "Iron Sword",
+                    Description = "An iron sword! Now you can slay monsters effectively!"
+                };
+            case ID.WoodAxe:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/woodAxe"),
+                    MaxStack = 1,
+                    StackSize = amount,
+                    Name = "Wooden Axe",
+                    Description = "Used for cutting down trees."
+                };
+            case ID.StoneAxe:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/stoneAxe"),
+                    MaxStack = 1,
+                    StackSize = amount,
+                    Name = "Stone Axe",
+                    Description = "Used for cutting down trees."
+                };
+            case ID.IronAxe:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/ironAxe"),
+                    MaxStack = 1,
+                    StackSize = amount,
+                    Name = "Iron Axe",
+                    Description = "Used for cutting down trees."
                 };
             case ID.Log:
                 return new Item() 
