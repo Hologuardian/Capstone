@@ -20,8 +20,8 @@ public class Item
         set { gameObject = value; }
     }
 
-    private int id;
-    public int ID
+    private ID id;
+    public ID ID
     {
         get{return id;}
         set {id = value;}
