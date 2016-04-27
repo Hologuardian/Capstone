@@ -6,13 +6,33 @@ using UnityEngine;
 
 public enum ID
 {
+    UIRoot,
+
+    Tools,
+    Axe,
+    WoodAxe,
+    StoneAxe,
+    IronAxe,
+
+    Weapons,
+    Sword,
+    WoodSword,
+    StoneSword,
+    IronSword,
+
+    Armour,
+    Chestplate,
+    Helmet,
+
+    Structures,
+
     Log,
-    Stick,
     Iron,
+    Stone,
+    Stick,
     Plank,
     Flint,
     Rock,
-    Stone
 }
 
 public static class ItemFactory
@@ -22,10 +42,80 @@ public static class ItemFactory
     {
         switch(id)
         {
+            case ID.UIRoot:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = null,
+                    MaxStack = 0,
+                    StackSize = 0,
+                    Name = "",
+                    Description = ""
+                };
+            case ID.Tools:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/Tools"),
+                    MaxStack = 0,
+                    StackSize = 0,
+                    Name = "",
+                    Description = ""
+                };
+            case ID.Weapons:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/Weapons"),
+                    MaxStack = 0,
+                    StackSize = 0,
+                    Name = "",
+                    Description = ""
+                };
+            case ID.Armour:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/Armour"),
+                    MaxStack = 0,
+                    StackSize = 0,
+                    Name = "",
+                    Description = ""
+                };
+            case ID.Structures:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/Structures"),
+                    MaxStack = 0,
+                    StackSize = 0,
+                    Name = "",
+                    Description = ""
+                };
+            case ID.Axe:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/IronAxe"),
+                    MaxStack = 0,
+                    StackSize = 0,
+                    Name = "",
+                    Description = ""
+                };
+            case ID.Sword:
+                return new Item()
+                {
+                    ID = id,
+                    Icon = Resources.Load<Texture>("icons/IronSword"),
+                    MaxStack = 0,
+                    StackSize = 0,
+                    Name = "",
+                    Description = ""
+                };
             case ID.Log:
                 return new Item() 
-                { ID = id, 
-                    Icon = Resources.Load<Texture>("One"), 
+                { ID = id,
+                  Icon = Resources.Load<Texture>("icons/Wood"), 
                     MaxStack = 64, StackSize = amount, 
                     Name = "Log",
                   Description = "Logs can be found from trees."
@@ -44,10 +134,10 @@ public static class ItemFactory
                 return new Item()
                 {
                     ID = id,
-                    Icon = Resources.Load<Texture>("Three"),
+                    Icon = Resources.Load<Texture>("icons/ironBar"),
                     MaxStack = 64,
                     StackSize = amount,
-                    Name = "Log",
+                    Name = "Iron",
                     Description = "Logs can be found from trees."
                 };
             case ID.Plank:
