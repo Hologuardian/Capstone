@@ -14,7 +14,7 @@ public class InventoryManager : MonoBehaviour
         Rect bounds = panel.rect;
         for (int j = 55; j < bounds.size.y; j += 50)
         {
-            for (int i = 5; i < bounds.size.x - 40; i += 50)
+            for (int i = (int)bounds.size.x - 55; i > 0; i -= 50)
             {
                 Button b = Instantiate<Button>(template);
                 RectTransform t = b.GetComponent<RectTransform>();
@@ -34,6 +34,8 @@ public class InventoryManager : MonoBehaviour
     {
         int index = slots.IndexOf(b, 0, slots.Count);
         b.GetComponentInChildren<RawImage>().enabled = true;
+        b.GetComponentInChildren<RawImage>().texture = Resources.Load<Texture>("One");
+        b.GetComponentInChildren<Text>().text = "" + Random.Range(0, 100);
     }
 
     void setSlotValue(int index, Item item)
@@ -129,6 +131,5 @@ public class InventoryManager : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-	
 	}
 }

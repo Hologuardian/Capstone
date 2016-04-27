@@ -6,8 +6,8 @@ using UnityEngine;
 
 public class Item
 {
-    private Texture2D icon;
-    public Texture2D Icon
+    private Texture icon;
+    public Texture Icon
     {
         get{return icon;}
         set {icon = value;}
@@ -20,25 +20,39 @@ public class Item
         set { gameObject = value; }
     }
 
-    private uint id;
-    public uint ID
+    private int id;
+    public int ID
     {
         get{return id;}
         set {id = value;}
     }
 
-    private uint stackSize;
-    public uint StackSize
+    private int stackSize;
+    public int StackSize
     {
         get {return stackSize;}
         set {stackSize = value;}
     }
 
-    private uint maxStack;
-    public uint MaxStack
+    private int maxStack;
+    public int MaxStack
     {
         get { return maxStack; }
         set { maxStack = value; }
+    }
+
+    private string name;
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+
+    private string description;
+    public string Description
+    {
+        get { return description; }
+        set { description = value; }
     }
 
     public void onInteract()

@@ -10,19 +10,20 @@ public class GenerateHeightmap : MonoBehaviour {
     private float seed;
     private int numChunks = 0;
     private int lastSeenChunks = 0;
+    private const int squareSize = 12;
 	// Use this for initialization
 	void Start () 
     {
         seed = (float)rand.Next(99999);
         StartCoroutine("MakeTerrain", new Vector4(0,0,0,0));
-        int max = 32;
-        for (int n = 1; n < max; n++)
+
+        for (int n = 1; n < squareSize; n++)
         {
             for(int i = 0; i <= n; i++)
             {
                 genOrder.Add(new Vector2(i, n));
             }
-            for (int i = 0; i <= n; i++)
+            for (int i = n - 1; i >= 0; i--)
             {
                 genOrder.Add(new Vector2(n, i));
             }
@@ -59,7 +60,8 @@ public class GenerateHeightmap : MonoBehaviour {
 
         TerrainData td = new TerrainData();
 
-        td.size = new Vector3(128, 600, 128);
+        td.size = new Vector3(128, 1200, 128);
+
         td.heightmapResolution = 129;
         td.alphamapResolution = 129;
         //td.baseMapResolution = 1024;
@@ -99,10 +101,12 @@ public class GenerateHeightmap : MonoBehaviour {
                 h += (Mathf.PerlinNoise(xCoord / 15.0f, zCoord / 15.0f) * 0.05f) * Mathf.Clamp01((h - 0.5f) * 2.0f);//hi += (Random.value - 0.5f) / 100.0f);
                 //h *= 0.5f;
                 h = Mathf.Clamp01(h);
-                float s = Mathf.PerlinNoise(xCoord / 1000.0f, zCoord / 1000.0f) * 0.95f + 0.05f;
+                float s = Mathf.PerlinNoise(xCoord / 1000.0f, zCoord / 1000.0f);
+                s = s * s;
+                s = Mathf.Clamp01(s);
                 h = h * (s * s * s * (s * (s * 6 - 15) + 10));
                 heightMap[j, i] = h;
-                SpawnDetails((int)(u + i) * 4, (int)(v + j) * 4, (int)(h * 600));
+                SpawnDetails((int)(i) * 4, (int)(j) * 4, (int)(h * 1200), obj.transform);
             }
         }
         yield return new WaitForSeconds(0);
@@ -135,6 +139,7 @@ public class GenerateHeightmap : MonoBehaviour {
         tObj.transform.parent = obj.transform;
         Terrain t = tObj.GetComponent<Terrain>();
         t.name = "Terrain" + x / td.size.x + "" + z / td.size.z;
+        obj.name = "Chunk" + x / td.size.x + "" + z / td.size.z;
         t.heightmapPixelError = 8;
         t.reflectionProbeUsage = UnityEngine.Rendering.ReflectionProbeUsage.Off;
         t.Flush();
@@ -151,11 +156,12 @@ public class GenerateHeightmap : MonoBehaviour {
 
 
     public GameObject tree = null;
-    void SpawnDetails(int x, int z, int h)
+    void SpawnDetails(int x, int z, int h, Transform parent)
     {
-        if(h < 250 && x % (rand.Next(10) + 20) == 0 && z % (rand.Next(10) + 20) == 0)
+        if (h < 200 && x % (rand.Next(10) + 20) == 0 && z % (rand.Next(10) + 20) == 0)
         {
-            Instantiate(tree, new Vector3(x, h + 5, z), Quaternion.identity);
+            GameObject obj = Instantiate(tree, new Vector3(x, h, z), Quaternion.identity) as GameObject;
+            obj.transform.parent = parent;
         }
     }
 }

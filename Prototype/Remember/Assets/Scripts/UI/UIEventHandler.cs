@@ -17,7 +17,7 @@ public class UIEventHandler : MonoBehaviour
         SetTierActive(false, tier1, null);
         SetTierActive(false, tier2, null);
         SetTierActive(false, tier3, null);
-        entryPoint.onClick.AddListener(delegate { ToggleInventory(); });
+        entryPoint.GetComponentInChildren<Button>().onClick.AddListener(delegate { ToggleInventory(); });
 	}
 
     public GameObject inventory;
@@ -26,7 +26,7 @@ public class UIEventHandler : MonoBehaviour
     public GameObject tier3;
     public uint layer = 0;
     public EventSystem uiEventSystem;
-    public Button entryPoint;
+    public GameObject entryPoint;
 	// Update is called once per frame
 	void Update () 
     {
@@ -34,7 +34,7 @@ public class UIEventHandler : MonoBehaviour
         {
             if (uiEventSystem.currentSelectedGameObject != null)
             {
-                if(uiEventSystem.currentSelectedGameObject.gameObject == entryPoint.gameObject)
+                if (uiEventSystem.currentSelectedGameObject.gameObject == entryPoint.GetComponentInChildren<Button>().gameObject)
                 {
                     Cursor.lockState = CursorLockMode.Locked;
                     Cursor.visible = false;
@@ -99,11 +99,11 @@ public class UIEventHandler : MonoBehaviour
             buttonUp = false;
             inventoryOpen = false;
             inventory.SetActive(false);
-            SetTierActive(true, tier1, null);
-            SetTierActive(true, tier2, null);
-            SetTierActive(true, tier3, null);
+            SetTierActive(false, tier1, null);
+            SetTierActive(false, tier2, null);
+            SetTierActive(false, tier3, null);
             GetComponentInChildren<RigidbodyFirstPersonController>().enabled = true;
-            uiEventSystem.SetSelectedGameObject(entryPoint.gameObject);
+            uiEventSystem.SetSelectedGameObject(entryPoint.GetComponentInChildren<Button>().gameObject);
         }
     }
 
