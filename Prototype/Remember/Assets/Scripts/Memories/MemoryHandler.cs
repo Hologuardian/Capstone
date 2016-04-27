@@ -1,15 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class MemoryHandler : MonoBehaviour {
-
-	// Use this for initialization
-	void Start () {
+public class MemoryHandler : MonoBehaviour
+{
+	void Start ()
+    {
 	
 	}
 	
-	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 	
 	}
 }
