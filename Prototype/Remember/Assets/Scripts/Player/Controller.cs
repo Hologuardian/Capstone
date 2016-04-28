@@ -13,59 +13,25 @@ public class Controller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-	    if(Input.GetKeyDown(KeyCode.W))
+	    if(Input.GetButtonDown("Fire1"))
         {
-            MoveForward();
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            MoveLeft();
-        }
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            MoveBackward();
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            MoveRight();
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            LeftClick();
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            RightClick();
+            Interact();
         }
 	}
 
-    void MoveForward()
+    void Interact()
     {
-        throw new NotImplementedException();
-    }
-
-    void MoveLeft()
-    {
-        throw new NotImplementedException();
-    }
-
-    void MoveBackward()
-    {
-        throw new NotImplementedException();
-    }
-
-    void MoveRight()
-    {
-        throw new NotImplementedException();
-    }
-
-    void LeftClick()
-    {
-        throw new NotImplementedException();
-    }
-
-    void RightClick()
-    {
-        throw new NotImplementedException();
+        RaycastHit hit;
+        Transform t = GameObject.FindGameObjectWithTag("MainCamera").transform;
+        Physics.Raycast(new Ray(t.position, t.forward), out hit);
+        if(hit.collider != null)
+        {
+            if(hit.collider.gameObject.tag == "Collectable")
+            {
+                Item i = ItemFactory.makeItem(hit.collider.gameObject.GetComponent<WorldItem>().itemType, 1);
+                gameObject.GetComponent<InventoryManager>().AddItem(i);
+                Destroy(hit.collider.gameObject);
+            }
+        }
     }
 }

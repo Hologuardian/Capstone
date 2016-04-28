@@ -2,7 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using UnityStandardAssets.Characters.FirstPerson;
-using System.Collections;
+using System.Collections.Generic;
 
 public class UIEventHandler : MonoBehaviour 
 {
@@ -40,6 +40,7 @@ public class UIEventHandler : MonoBehaviour
 	}
 
     public GameObject inventory;
+    public GameObject hotBar;
     public GameObject tier1;
     public GameObject tier2;
     public GameObject tier3;
@@ -62,6 +63,7 @@ public class UIEventHandler : MonoBehaviour
                     Cursor.visible = false;
                     inventoryOpen = false;
                     inventory.SetActive(false);
+                    hotBar.SetActive(true);
                     SetTierActive(false, tier1, ID.UIRoot);
                     SetTierActive(false, tier2, ID.UIRoot);
                     SetTierActive(false, tier3, ID.UIRoot);
@@ -119,7 +121,8 @@ public class UIEventHandler : MonoBehaviour
             buttonUp = false;
             inventoryOpen = true;
             inventory.SetActive(true);
-            GetComponentInChildren<RigidbodyFirstPersonController>().enabled = false;
+            hotBar.SetActive(false);
+            GetComponentInChildren<FirstPersonController>().enabled = false;
             uiEventSystem.SetSelectedGameObject(tier1.transform.GetChild(0).gameObject);
             SetTierActive(true, tier1, ID.UIRoot);
             layer = 1;
@@ -131,10 +134,11 @@ public class UIEventHandler : MonoBehaviour
             buttonUp = false;
             inventoryOpen = false;
             inventory.SetActive(false);
+            hotBar.SetActive(true);
             SetTierActive(false, tier1, ID.UIRoot);
             SetTierActive(false, tier2, ID.UIRoot);
             SetTierActive(false, tier3, ID.UIRoot);
-            GetComponentInChildren<RigidbodyFirstPersonController>().enabled = true;
+            GetComponentInChildren<FirstPersonController>().enabled = true;
             uiEventSystem.SetSelectedGameObject(entryPointParent.GetComponentInChildren<Button>().gameObject);
         }
     }
@@ -190,6 +194,7 @@ public class UIEventHandler : MonoBehaviour
             tier1Item = CraftingTree.craftingUI[ID.UIRoot][int.Parse(lastSelected.name)];
             SetTierActive(true, tier2, tier1Item);
             SetTierActive(false, tier3, tier1Item);
+            uiEventSystem.SetSelectedGameObject(tier2.transform.GetChild(0).gameObject);
             layer = 2;
         }
         if (b.gameObject.transform.parent.gameObject == tier2)
@@ -197,13 +202,34 @@ public class UIEventHandler : MonoBehaviour
             Debug.Log("Tried to activate tier 3");
             tier2Item = CraftingTree.craftingUI[tier1Item][int.Parse(lastSelected.name)];
             SetTierActive(true, tier3, tier2Item);
+            uiEventSystem.SetSelectedGameObject(tier3.transform.GetChild(0).gameObject);
             layer = 3;
         }
         if (b.gameObject.transform.parent.gameObject == tier3)
         {
-            Debug.Log("Tried to craft");
+           Debug.Log("Tried to craft");
            InventoryManager inventory = gameObject.GetComponent<InventoryManager>();
-           ID[] req = CraftingTree.Required[tier2Item];
+           ID toCraft = CraftingTree.craftingUI[tier2Item][int.Parse(uiEventSystem.currentSelectedGameObject.name)];
+           ID[] req = CraftingTree.Required[toCraft];
+           List<Item> used = new List<Item>();
+           foreach(ID item in req)
+           {
+               Item i = ItemFactory.makeItem(item, 1);
+               if(inventory.HasItem(i))
+               {
+                   inventory.DecrementItem(i);
+                   used.Add(i);
+               }
+               else 
+               {
+                   foreach(Item use in used)
+                   {
+                       inventory.AddItem(use);
+                   }
+                   break;
+               }
+           }
+           inventory.AddItem(ItemFactory.makeItem(toCraft, 1));
         }
     }
 }

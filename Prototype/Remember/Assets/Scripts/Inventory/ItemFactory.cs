@@ -176,7 +176,7 @@ public static class ItemFactory
                 return new Item() 
                 { ID = id,
                   Icon = Resources.Load<Texture>("icons/Wood"), 
-                    MaxStack = 64, StackSize = amount, 
+                    MaxStack = 99, StackSize = amount, 
                     Name = "Log",
                   Description = "Logs can be found from trees."
                 };
@@ -184,8 +184,8 @@ public static class ItemFactory
                 return new Item()
                 {
                     ID = id,
-                    Icon = Resources.Load<Texture>("Two"),
-                    MaxStack = 64,
+                    Icon = Resources.Load<Texture>("icons/Stick"),
+                    MaxStack = 99,
                     StackSize = amount,
                     Name = "Stick",
                     Description = "Sticks can be found lying around in forests, or can be harvested from saplings."
@@ -195,7 +195,7 @@ public static class ItemFactory
                 {
                     ID = id,
                     Icon = Resources.Load<Texture>("icons/ironBar"),
-                    MaxStack = 64,
+                    MaxStack = 99,
                     StackSize = amount,
                     Name = "Iron",
                     Description = "Logs can be found from trees."
@@ -205,7 +205,7 @@ public static class ItemFactory
                 {
                     ID = id,
                     Icon = Resources.Load<Texture>("Four"),
-                    MaxStack = 64,
+                    MaxStack = 99,
                     StackSize = amount,
                     Name = "Log",
                     Description = "Logs can be found from trees."
@@ -215,7 +215,7 @@ public static class ItemFactory
                 {
                     ID = id,
                     Icon = Resources.Load<Texture>("Five"),
-                    MaxStack = 64,
+                    MaxStack = 99,
                     StackSize = amount,
                     Name = "Log",
                     Description = "Logs can be found from trees."
@@ -225,7 +225,7 @@ public static class ItemFactory
                 {
                     ID = id,
                     Icon = Resources.Load<Texture>("Six"),
-                    MaxStack = 64,
+                    MaxStack = 99,
                     StackSize = amount,
                     Name = "Log",
                     Description = "Logs can be found from trees."
@@ -234,11 +234,11 @@ public static class ItemFactory
                 return new Item()
                 {
                     ID = id,
-                    Icon = Resources.Load<Texture>("Seven"),
-                    MaxStack = 64,
+                    Icon = Resources.Load<Texture>("icons/Stone"),
+                    MaxStack = 99,
                     StackSize = amount,
-                    Name = "Log",
-                    Description = "Logs can be found from trees."
+                    Name = "Stone",
+                    Description = "Found pretty much everywhere."
                 };
         }
         return null;

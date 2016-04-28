@@ -52,10 +52,9 @@
      <Compile Include="Assets\Scripts\Inventory\InventoryManager.cs" />
      <Compile Include="Assets\Scripts\Inventory\Item.cs" />
      <Compile Include="Assets\Scripts\Inventory\ItemFactory.cs" />
-     <Compile Include="Assets\Scripts\Memories\Memory.cs" />
-     <Compile Include="Assets\Scripts\Memories\MemoryHandler.cs" />
-     <Compile Include="Assets\Scripts\Memories\MemoryLibrary.cs" />
+     <Compile Include="Assets\Scripts\MusicScript.cs" />
      <Compile Include="Assets\Scripts\Player\Controller.cs" />
+     <Compile Include="Assets\Scripts\Player\WorldItem.cs" />
      <Compile Include="Assets\Scripts\UI\UIEventHandler.cs" />
      <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
      <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\_BloomAndFlares\BlendOneOne.shader" />
