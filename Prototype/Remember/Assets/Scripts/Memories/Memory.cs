@@ -4,8 +4,8 @@ using System;
 
 public class Memory
 {
-    private ID id;
-    public ID Id
+    private memoryID id;
+    public memoryID Id
     {
         get { return id; }
         set { id = value; }
@@ -22,5 +22,11 @@ public class Memory
     {
         get { return sound; }
         set { sound = value; }
+    }
+    private float length;
+    public float Length
+    {
+        get { return length; }
+        set { length = value; }
     }
 }

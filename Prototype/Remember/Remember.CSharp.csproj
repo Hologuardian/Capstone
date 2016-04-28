@@ -72,6 +72,7 @@
     <Compile Include="Assets\Scripts\Generation\ChunkConstuctor.cs" />
     <Compile Include="Assets\Scripts\Generation\GenerateHeightmap.cs" />
     <Compile Include="Assets\Scripts\Generation\TerrainBuilder.cs" />
+    <Compile Include="Assets\Scripts\Inventory\CraftingTree.cs" />
     <Compile Include="Assets\Scripts\Inventory\InventoryManager.cs" />
     <Compile Include="Assets\Scripts\Inventory\Item.cs" />
     <Compile Include="Assets\Scripts\Inventory\ItemFactory.cs" />
