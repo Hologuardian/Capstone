@@ -19,20 +19,20 @@ public class UIEventHandler : MonoBehaviour
         SetTierActive(false, tier2, ID.Tools);
         SetTierActive(false, tier3, ID.UIRoot);
         entryPointParent.GetComponentInChildren<Button>().onClick.AddListener(delegate { ToggleInventory(); });
-        Button[] buttons = tier1.GetComponentsInChildren<Button>();
+        Button[] buttons = tier1.GetComponentsInChildren<Button>(true);
         int iter = 0;
         foreach(Button b in buttons)
         {
             b.onClick.AddListener(delegate { OnClick(b, 1, iter); });
         }
         iter = 0;
-        buttons = tier2.GetComponentsInChildren<Button>();
+        buttons = tier2.GetComponentsInChildren<Button>(true);
         foreach (Button b in buttons)
         {
             b.onClick.AddListener(delegate { OnClick(b, 2, iter); });
         }
         iter = 0;
-        buttons = tier3.GetComponentsInChildren<Button>();
+        buttons = tier3.GetComponentsInChildren<Button>(true);
         foreach (Button b in buttons)
         {
             b.onClick.AddListener(delegate { OnClick(b, 1, iter); });
@@ -78,7 +78,6 @@ public class UIEventHandler : MonoBehaviour
                 {
                     if(layer == 1)
                     {
-                        Debug.Log("Tier 1 ID: " + int.Parse(lastSelected.name));
                         tier1Item = CraftingTree.craftingUI[ID.UIRoot][int.Parse(lastSelected.name)];
                     }
                     SetTierActive(true, tier2, tier1Item);
@@ -89,7 +88,6 @@ public class UIEventHandler : MonoBehaviour
                 {
                     if (layer == 2)
                     {
-                        Debug.Log("Tier 1: " + tier1Item + "Tier 2 ID: " + int.Parse(lastSelected.name));
                         tier2Item = CraftingTree.craftingUI[tier1Item][int.Parse(lastSelected.name)];
                     }
                     SetTierActive(true, tier3, tier2Item);
@@ -144,35 +142,41 @@ public class UIEventHandler : MonoBehaviour
     public void SetTierActive(bool active, GameObject tier, ID parent)
     {
         GameObject obj = uiEventSystem.currentSelectedGameObject;
-        uiEventSystem.UpdateModules();
-        for(int i = 0; i < tier.transform.childCount; i++)
+
+        int iter = 0;
+        ID[] items = new ID[] { };
+        if (CraftingTree.craftingUI.ContainsKey(parent))
+            items = CraftingTree.craftingUI[parent];
+
+        Image[] imgs = tier.GetComponentsInChildren<Image>();
+        foreach (Image img in imgs)
         {
-            GameObject b = tier.transform.GetChild(i).gameObject;
-            //b.GetComponent<Button>();
-            Image[] imgs = b.GetComponentsInChildren<Image>();
-            foreach(Image img in imgs)
+            if (iter < items.Length)
             {
                 img.enabled = active;
             }
-            int iter = 0;
-            ID[] items = new ID[] { };
-            if(CraftingTree.craftingUI.ContainsKey(parent))
-                items = CraftingTree.craftingUI[parent];
-            string debug = "";
-            foreach(ID id in items)
-                debug += id;
-            Debug.Log(debug);
-            RawImage[] rimgs = b.GetComponentsInChildren<RawImage>();
-            foreach (RawImage img in rimgs)
+            else
             {
-                if (iter < items.Length)
-                {
-                    img.texture = ItemFactory.makeItem(items[iter], 0).Icon;
-                    img.enabled = active;
-                    iter++;
-                }
+                img.enabled = false;
             }
-            uiEventSystem.SetSelectedGameObject(b);
+            iter++;
+        }
+
+        iter = 0;
+        RawImage[] rimgs = tier.GetComponentsInChildren<RawImage>(true);
+        foreach (RawImage img in rimgs)
+        {
+            if (iter < items.Length)
+            {
+                img.texture = ItemFactory.makeItem(items[iter], 0).Icon;
+                img.enabled = active;
+            }
+            else
+            {
+                img.enabled = false;
+            }
+            iter++;
+            uiEventSystem.SetSelectedGameObject(img.transform.parent.gameObject);
         }
         uiEventSystem.UpdateModules();
         uiEventSystem.SetSelectedGameObject(obj);
@@ -180,16 +184,24 @@ public class UIEventHandler : MonoBehaviour
 
     public void OnClick(Button b, int tier, int index)
     {
-        if(tier == 1)
+        if (b.gameObject.transform.parent.gameObject == tier1)
         {
-
+            Debug.Log("Tried to activate tier 2");
+            tier1Item = CraftingTree.craftingUI[ID.UIRoot][int.Parse(lastSelected.name)];
+            SetTierActive(true, tier2, tier1Item);
+            SetTierActive(false, tier3, tier1Item);
+            layer = 2;
         }
-        if (tier == 2)
+        if (b.gameObject.transform.parent.gameObject == tier2)
         {
-
+            Debug.Log("Tried to activate tier 3");
+            tier2Item = CraftingTree.craftingUI[tier1Item][int.Parse(lastSelected.name)];
+            SetTierActive(true, tier3, tier2Item);
+            layer = 3;
         }
-        if (tier == 3)
+        if (b.gameObject.transform.parent.gameObject == tier3)
         {
+            Debug.Log("Tried to craft");
            InventoryManager inventory = gameObject.GetComponent<InventoryManager>();
            ID[] req = CraftingTree.Required[tier2Item];
         }
