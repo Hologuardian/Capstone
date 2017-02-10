@@ -34,17 +34,7 @@ public class FPController : MonoBehaviour {
         rotX = Input.GetAxis("Mouse X") * sensitivity;
         rotY = Input.GetAxis("Mouse Y") * sensitivity;
         Debug.Log(eyes.transform.eulerAngles.x);
-        if (eyes.transform.eulerAngles.x > 180f)
-        {
-            rotY = (rotY > 0) ? 0 : rotY;
-            
-
-        }
-        else if (eyes.transform.eulerAngles.x <= 0f)
-        {
-            rotY = (rotY < 0) ? 0 : rotY;
-        }
-
+      
         Vector3 movement = new Vector3(moveLR, 0, moveFB);
 
         transform.Rotate(0, rotX, 0);
