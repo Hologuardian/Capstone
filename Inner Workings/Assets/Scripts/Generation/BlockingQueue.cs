@@ -62,9 +62,6 @@ public class BlockingQueue<T>
 
     public int Size()
     {
-        lock (syncLock)
-        {
-            return queue.Count;
-        }
+        return queue.Count;
     }
 }

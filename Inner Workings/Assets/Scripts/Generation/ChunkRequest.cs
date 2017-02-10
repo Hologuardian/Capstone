@@ -20,11 +20,11 @@ public class ChunkRequest
         this.chunk = chunk;
     }
 
-    public ChunkRequest(RequestType chunkRequestType, ChunkUpdate chunkUpdate, int ChunkX, int ChunkZ)
+    public ChunkRequest(RequestType chunkRequestType, ChunkUpdate chunkUpdate)
     {
         this.chunkRequestType = chunkRequestType;
-        this.ChunkX = ChunkX;
-        this.ChunkZ = ChunkZ;
+        this.ChunkX = 0;
+        this.ChunkZ = 0;
         this.update = chunkUpdate;
     }
 

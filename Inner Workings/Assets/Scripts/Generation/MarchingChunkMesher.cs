@@ -53,8 +53,10 @@ public class MarchingChunkMesher : ChunkMesher
         uint[] CubeValue = new uint[8];
         SimpleVertex[] EdgeVertex = new SimpleVertex[12];
 
-        data.points = new List<Vector3>(); // Positions
-        data.colors = new List<Color32>();
+        data.points.Clear();
+        data.colors.Clear();
+        data.normals.Clear();
+        data.triangles.Clear();
         for (int i = 0; i < Constants.ChunkWidth; i++)
         {
             for (int j = 0; j < Constants.ChunkWidth; j++)

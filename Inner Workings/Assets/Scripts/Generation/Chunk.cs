@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Chunk : MonoBehaviour
@@ -18,6 +19,30 @@ public class Chunk : MonoBehaviour
         {
             chunkDecorators[i].decorateChunkData(data, noise);
         }
+    }
+
+    public void UpdateData(ChunkUpdate update)
+    {
+        for (int i = 0; i < update.positions.Count; i++)
+        {
+            long[] pos = update.positions[i];
+            int index = -1;
+            try
+            {
+                index = (int)(pos[1] * (Constants.ChunkWidth + 1) * (Constants.ChunkHeight + 1) +
+                            pos[3] * (Constants.ChunkHeight + 1) +
+                            pos[2]);
+                data.values[index] = update.values[i];
+            }
+            catch(Exception e)
+            {
+                Debug.Log(e.Message + "\n" + e.StackTrace + "\n" + index + ":" + pos[0] + ":" + pos[1] + ":" + pos[2] + ":" + pos[3] + ":" + update.positions.Count + ":" + update.values.Count);
+            }
+        }
+    }
+
+    public void Mesh()
+    {
         mesher.MeshChunk(data);
     }
 
@@ -37,6 +62,7 @@ public class Chunk : MonoBehaviour
 
         Mesh m = new Mesh();
         MeshFilter filter = gameObject.GetComponent<MeshFilter>();
+        MeshCollider collider = gameObject.GetComponent<MeshCollider>();
         m.Clear();
 
         m.SetVertices(data.points);
@@ -45,6 +71,7 @@ public class Chunk : MonoBehaviour
         m.SetTriangles(data.triangles.ToArray(), 0);
 
         filter.mesh = m;
+        collider.sharedMesh = m;
     }
 
     public void Destroy()

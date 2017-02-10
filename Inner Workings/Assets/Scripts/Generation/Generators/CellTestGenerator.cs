@@ -3,52 +3,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TestGenerator : ChunkGenerator
+public class CellTestGenerator : ChunkGenerator
 {
-    const float octave1 = 0.5f;
-    const float octave1Multiplier = 0.75f;
-    const float octave1Value = 0.35f;
-
-    const float octave2 = 0.25f;
-    const float octave2Multiplier = 0.25f;
-    const float octave2Value = 0.5f;
-
-    const float octave4 = 2.0f;
-    const float octave4Multiplier = 0.5f;
-    const float octave4Value = .75f;
-
-    const float octave5 = 1.0f;
-    const float octave5Multiplier = 0.25f;
-    const float octave5Value = 1.0f;
-
-    const float octave6 = 4.0f;
-    const float octave6Multiplier = 0.125f;
-    const float octave6Value = 0.5f;
-
-    const float octave3 = 0.0625f; //Reserved Biome Octave
-    const float octave3Value = 0.5f;
-    const float octave3Multiplier = 0.5f;
-
-    const float preBiomeEffect = 2.25f;
-    const float postBiomeEffect = 0.33333333333f;
+    const float octave1 = 1.0f;
+    const float octave1Multiplier = 0.0675f;
+    const float octave1Value = 0.0675f;
 
     public override void generateChunkData(ChunkData data, FastNoise noise)
     {
+        FastNoise noise2 = new FastNoise(noise.GetSeed());
+        noise.SetCellularDistanceFunction(FastNoise.CellularDistanceFunction.Euclidean);
+        noise.SetCellularReturnType(FastNoise.CellularReturnType.CellValue);
+        noise2.SetCellularDistanceFunction(FastNoise.CellularDistanceFunction.Euclidean);
+        noise2.SetCellularReturnType(FastNoise.CellularReturnType.Distance2Sub);
         for (int i = 0; i < Constants.ChunkWidth + 1; i++)
         {
             for (int j = 0; j < Constants.ChunkWidth + 1; j++)
             {
-                float noiseH = (noise.GetPerlinFractal((i + Constants.ChunkWidth * data.ChunkX) * octave1, (j + Constants.ChunkWidth * data.ChunkZ) * octave1) * octave1Multiplier + octave1Value) * (float)Constants.ChunkHeight;
-                noiseH *= (noise.GetPerlinFractal((i + Constants.ChunkWidth * data.ChunkX) * octave2, (j + Constants.ChunkWidth * data.ChunkZ) * octave2) * octave2Multiplier + octave2Value);
-                float biome = (noise.GetNoise((i + Constants.ChunkWidth * data.ChunkX) * octave3, (j + Constants.ChunkWidth * data.ChunkZ) * octave3) * octave3Multiplier + octave3Value);
-                biome *= preBiomeEffect;
-                biome *= biome;
-                biome *= postBiomeEffect;
-                biome = Mathf.Sqrt(biome);
-                noiseH *= biome;
-                noiseH *= (noise.GetPerlinFractal((i + Constants.ChunkWidth * data.ChunkX) * octave4, (j + Constants.ChunkWidth * data.ChunkZ) * octave4) * octave4Multiplier + octave4Value);
-                noiseH *= (noise.GetPerlinFractal((i + Constants.ChunkWidth * data.ChunkX) * octave5, (j + Constants.ChunkWidth * data.ChunkZ) * octave5) * octave5Multiplier + octave5Value);
-                noiseH *= (noise.GetPerlinFractal((i + Constants.ChunkWidth * data.ChunkX) * octave6, (j + Constants.ChunkWidth * data.ChunkZ) * octave6) * octave5Multiplier + octave5Value);
+                float noiseH = (noise.GetCellular((i + Constants.ChunkWidth * data.ChunkX) * octave1, (j + Constants.ChunkWidth * data.ChunkZ) * octave1) * octave1Multiplier + octave1Value) * (float)Constants.ChunkHeight;
+
+                noiseH += (noise2.GetCellular((i + Constants.ChunkWidth * data.ChunkX) * octave1, (j + Constants.ChunkWidth * data.ChunkZ) * octave1) * octave1Multiplier + octave1Value) * (float)Constants.ChunkHeight;
+
                 for (int k = 0; k < Constants.ChunkHeight + 1; k++)
                 {
                     //if (noiseH >= k - 2 && noiseH <= k)

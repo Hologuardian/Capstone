@@ -5,8 +5,11 @@ using UnityEngine;
 [Serializable]
 public class ChunkData
 {
+    //Pre-Mesh Lists
     public List<Vector3> points;
     public List<uint> values;
+
+    //Post-Mesh Lists
     public List<int> triangles;
     public List<Vector3> normals;
     public List<Color32> colors;

@@ -1,0 +1,43 @@
+Main menu + Effects
+Player Character
+	Attacks
+	Abilities
+	Movement - Week 1
+	Camera - Week 1
+	Inventory
+Terrain
+	Details - Week 1
+		Chunk Updating
+	Buildings - Week 2
+	Biomes - Voronoi Large Scale
+	Events - Voronoi Small Scale
+Shaders
+	Terrain Shader
+		Grass/Lighting
+	Menu/UI effects - Week 3
+		Static Transitions
+		Scratchy Shader
+	Filters
+		Isolation Grayscale
+Isolation Bossfight
+	Boss
+		Abilities
+			Fog Teleportation
+		Attacks
+		Assets - Model for boss
+	Arena
+		Village
+		Fog Entry Gate -> Instance (Scene Transitions)
+		Movement Zones
+Events - Entity Component Based - Need Brainstorming session
+	Animals
+	Enemies
+	Assets
+Memories
+	Art - Liam
+	Sound - Sound Booth
+Ambience / Music
+	Boss music only - Ambience otherwise
+	Look into freelance or free sources.
+Credits Scene
+	Scrolling Pre-Made Images

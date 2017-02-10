@@ -1,8 +1,13 @@
-﻿using System;
+﻿using UnityEngine;
 using System.Collections.Generic;
 
-public struct ChunkUpdate
+public class ChunkUpdate
 {
-    public long chunkLocation;
-    public List<long> updates;
+    public List<long[]> positions;
+    public List<uint> values;
+    public ChunkUpdate()
+    {
+        positions = new List<long[]>();
+        values = new List<uint>();
+    }
 }
