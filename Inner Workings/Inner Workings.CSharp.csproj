@@ -84,6 +84,7 @@
     <Compile Include="Assets\Scripts\Character\Controller.cs" />
     <Compile Include="Assets\Scripts\Character\ThirdPersonController.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
+    <Compile Include="Assets\Scripts\FPController.cs" />
     <Compile Include="Assets\Scripts\FastNoise\FastNoise.cs" />
     <Compile Include="Assets\Scripts\Generation\BlockingDictionary.cs" />
     <Compile Include="Assets\Scripts\Generation\BlockingQueue.cs" />
