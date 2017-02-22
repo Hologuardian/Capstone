@@ -18,7 +18,7 @@ public class TestTreeDecorator : ChunkDecorator
             {
                 bool tree = false;
                 float noiseVal = (noise.GetWhiteNoise(i + data.ChunkX * (Constants.ChunkWidth), j + data.ChunkZ * (Constants.ChunkWidth)) * 0.5f + 0.5f);
-                bool shouldTree = noiseVal < 0.025f;
+                bool shouldTree = noiseVal < 0.00425f;
                 uint previous = 0;
                 int height = 0;
                 for (int k = 0; k < Constants.ChunkHeight; k++)
@@ -36,21 +36,24 @@ public class TestTreeDecorator : ChunkDecorator
                     if (tree)
                     {
                         height++;
-                        if (height < 10)
+                        int treeHeight = 14 + (int)(noise.GetWhiteNoise(i, j) * 7.0f);
+                        float noiseScale = 8.125f;
+                        if (height < treeHeight)
                         {
                             uint color = 0x8B4513FF;
                             data.values[(i * (Constants.ChunkWidth + 1) * (Constants.ChunkHeight + 1) + j * (Constants.ChunkHeight + 1) + k)] = color;
                         }
-                        else if(height == 10)
+                        else if(height == treeHeight)
                         {
                             Vector3 center = new Vector3(i, k, j);
-                            for(int n = i - 4; n <= i + 4; n++)
+                            int width = 10;
+                            for(int n = i - width; n <= i + width; n++)
                             {
-                                for (int m = j - 4; m <= j + 4; m++)
+                                for (int m = j - width; m <= j + width; m++)
                                 {
-                                    for(int b = k - 4; b <= k + 4; b++)
+                                    for(int b = k - width; b <= k + width; b++)
                                     {
-                                        if (Vector3.Distance(center, new Vector3(n, b, m)) < rand.NextDouble() * 0.75f + 3.0f)
+                                        if (Vector3.Distance(center, new Vector3(n, b, m)) < (noise.GetPerlin(n * noiseScale, b * noiseScale, m * noiseScale) * 1.75f + 1.75f) + (4.0f + noise.GetWhiteNoise(i, j) * 2.0f) + rand.NextDouble() * (noise.GetWhiteNoise(i, j) * 0.25f + 0.5f))
                                         {
                                             manager.SetBlock(n + data.ChunkX * Constants.ChunkWidth, b, m + data.ChunkZ * Constants.ChunkWidth, 0x3B5323FF);
                                         }
