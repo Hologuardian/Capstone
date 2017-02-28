@@ -59,6 +59,10 @@ public class Chunk : MonoBehaviour
     {
         objects = new List<GameObject>();
 
+        foreach (Interactable interactable in data.interactables)
+        {
+            interactable.GenerateInteractionSphere();
+        }
 
         Mesh m = new Mesh();
         MeshFilter filter = gameObject.GetComponent<MeshFilter>();

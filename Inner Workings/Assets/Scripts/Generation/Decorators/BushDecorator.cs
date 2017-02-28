@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class TestTreeDecorator : ChunkDecorator
+public class BushDecorator : ChunkDecorator
 {
     public ChunkManager manager;
 
@@ -20,9 +20,9 @@ public class TestTreeDecorator : ChunkDecorator
             for (int j = 0; j < Constants.ChunkWidth + 1; j++)
             {
                 bool tree = false;
-                float noiseVal = (noise.GetWhiteNoise((i + data.ChunkX * (Constants.ChunkWidth)) / treeWidth, (j + data.ChunkZ * (Constants.ChunkWidth)) / treeWidth) * 0.125f + 0.125f);
+                float noiseVal = (noise.GetWhiteNoise((i + data.ChunkX * (Constants.ChunkWidth)) / treeWidth, (j + data.ChunkZ * (Constants.ChunkWidth)) / treeWidth) * 0.5f + 0.5f);
                 int treeHeight = 7 + (int)((noiseVal) * 2400.0f);
-                bool shouldTree = noiseVal < 0.00425f;
+                bool shouldTree = noiseVal > 0.975;
                 uint previous = 0;
                 int height = 0;
                 for (int k = 0; k < Constants.ChunkHeight; k++)
@@ -39,23 +39,17 @@ public class TestTreeDecorator : ChunkDecorator
 
                     if (tree)
                     {
-                        height++;
-                        if (height < treeHeight)
-                        {
-                            uint color = 0x8B4513FF - 0x04020100 * (uint)(noise.GetWhiteNoiseInt((i + data.ChunkX * (Constants.ChunkWidth)) * treeWidth, k, (j + data.ChunkZ * (Constants.ChunkWidth)) * treeWidth) * 13.0f + 2.0f);
-                            data.values[(i * (Constants.ChunkWidth + 1) * (Constants.ChunkHeight + 1) + j * (Constants.ChunkHeight + 1) + k)] = color;
-                        }
-                        else if(height == treeHeight)
+                        if(height == 0)
                         {
                             Vector3 center = new Vector3(i, k, j);
-                            int width = 10;
+                            int width = 3;
                             for(int n = i - width; n <= i + width; n++)
                             {
                                 for (int m = j - width; m <= j + width; m++)
                                 {
-                                    for(int b = k - width; b <= k + width; b++)
+                                    for(int b = k; b <= k + width; b++)
                                     {
-                                        if (Vector3.Distance(center, new Vector3(n, (b - k) * 1.25f + k, m)) < (2.0f + noiseVal * 1500.0f) + rand.NextDouble() * (noiseVal * 150.0f + 0.5f))
+                                        if (Vector3.Distance(center, new Vector3(n, ((b - k) * 1.25f) + k, m)) < (((noiseVal - 0.975) / 0.025) * 1.5f) + rand.NextDouble() * 0.5f)
                                         {
                                             manager.SetBlock(n + data.ChunkX * Constants.ChunkWidth, b, m + data.ChunkZ * Constants.ChunkWidth, 0x3B5323FF);
                                         }
@@ -63,6 +57,7 @@ public class TestTreeDecorator : ChunkDecorator
                                 }
                             }
                         }
+                        height++;
                     }
                 }
             }

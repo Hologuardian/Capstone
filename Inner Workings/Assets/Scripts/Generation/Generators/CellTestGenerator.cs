@@ -6,14 +6,14 @@ using UnityEngine;
 public class CellTestGenerator : ChunkGenerator
 {
     const float octave1 = 1.0f;
-    const float octave1Multiplier = 0.0675f;
-    const float octave1Value = 0.0675f;
+    const float octave1Multiplier = 0.25f;
+    const float octave1Value = 0.25f;
 
     public override void generateChunkData(ChunkData data, FastNoise noise)
     {
         FastNoise noise2 = new FastNoise(noise.GetSeed());
-        noise.SetCellularDistanceFunction(FastNoise.CellularDistanceFunction.Euclidean);
-        noise.SetCellularReturnType(FastNoise.CellularReturnType.CellValue);
+        noise.SetCellularDistanceFunction(FastNoise.CellularDistanceFunction.Natural);
+        noise.SetCellularReturnType(FastNoise.CellularReturnType.Distance);
         noise2.SetCellularDistanceFunction(FastNoise.CellularDistanceFunction.Euclidean);
         noise2.SetCellularReturnType(FastNoise.CellularReturnType.Distance2Sub);
         for (int i = 0; i < Constants.ChunkWidth + 1; i++)
@@ -22,7 +22,7 @@ public class CellTestGenerator : ChunkGenerator
             {
                 float noiseH = (noise.GetCellular((i + Constants.ChunkWidth * data.ChunkX) * octave1, (j + Constants.ChunkWidth * data.ChunkZ) * octave1) * octave1Multiplier + octave1Value) * (float)Constants.ChunkHeight;
 
-                noiseH += (noise2.GetCellular((i + Constants.ChunkWidth * data.ChunkX) * octave1, (j + Constants.ChunkWidth * data.ChunkZ) * octave1) * octave1Multiplier + octave1Value) * (float)Constants.ChunkHeight;
+                //noiseH += (noise2.GetCellular((i + Constants.ChunkWidth * data.ChunkX) * octave1, (j + Constants.ChunkWidth * data.ChunkZ) * octave1) * octave1Multiplier + octave1Value) * (float)Constants.ChunkHeight;
 
                 for (int k = 0; k < Constants.ChunkHeight + 1; k++)
                 {
