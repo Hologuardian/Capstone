@@ -81,26 +81,26 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Shaders\Scripts\Character\Controller.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Character\ThirdPersonController.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Constants.cs" />
-    <Compile Include="Assets\Shaders\Scripts\FPController.cs" />
-    <Compile Include="Assets\Shaders\Scripts\FastNoise\FastNoise.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\BlockingDictionary.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\BlockingQueue.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\Chunk.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\ChunkData.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\ChunkDecorator.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\ChunkGenerator.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\ChunkManager.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\ChunkMesher.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\ChunkRequest.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\ChunkUpdate.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\Decorators\TestTreeDecorator.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\Generators\CellTestGenerator.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\Generators\TestGenerator.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\MarchingChunkMesher.cs" />
-    <Compile Include="Assets\Shaders\Scripts\Generation\SimpleVertex.cs" />
+    <Compile Include="Assets\Scripts\Character\Controller.cs" />
+    <Compile Include="Assets\Scripts\Character\ThirdPersonController.cs" />
+    <Compile Include="Assets\Scripts\Constants.cs" />
+    <Compile Include="Assets\Scripts\FPController.cs" />
+    <Compile Include="Assets\Scripts\FastNoise\FastNoise.cs" />
+    <Compile Include="Assets\Scripts\Generation\BlockingDictionary.cs" />
+    <Compile Include="Assets\Scripts\Generation\BlockingQueue.cs" />
+    <Compile Include="Assets\Scripts\Generation\Chunk.cs" />
+    <Compile Include="Assets\Scripts\Generation\ChunkData.cs" />
+    <Compile Include="Assets\Scripts\Generation\ChunkDecorator.cs" />
+    <Compile Include="Assets\Scripts\Generation\ChunkGenerator.cs" />
+    <Compile Include="Assets\Scripts\Generation\ChunkManager.cs" />
+    <Compile Include="Assets\Scripts\Generation\ChunkMesher.cs" />
+    <Compile Include="Assets\Scripts\Generation\ChunkRequest.cs" />
+    <Compile Include="Assets\Scripts\Generation\ChunkUpdate.cs" />
+    <Compile Include="Assets\Scripts\Generation\Decorators\TestTreeDecorator.cs" />
+    <Compile Include="Assets\Scripts\Generation\Generators\CellTestGenerator.cs" />
+    <Compile Include="Assets\Scripts\Generation\Generators\TestGenerator.cs" />
+    <Compile Include="Assets\Scripts\Generation\MarchingChunkMesher.cs" />
+    <Compile Include="Assets\Scripts\Generation\SimpleVertex.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\ImageManipulation.shader" />
