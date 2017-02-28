@@ -82,19 +82,19 @@
 				fixed4 output = (0, 0, 0, 0); //full black???
 				fixed4 hatch; // = tex2D(_HatchTex, i.uv * 2); //multiplying makes lines more dense
 
-				if (original.a > 0.1)//test the a, not the r when  proper image is ready the .1 determines the cutoff of how much to draw
+				if (original.r > 0.3)//test the a, not the r when  proper image is ready the .1 determines the cutoff of how much to draw
 				{
 					hatch = tex2D(_HatchTex, texLookUp(i.uv * 21, row, col)); //Multiplying determines the frequency of the lines
 					output = alphaBlend(output, hatch * 0.8);//higher value on the .8 determines the intensity of the hatch
 				}
 
-				if (original.a > 0.4)
+				if (original.r > 0.5)
 				{
 					hatch = tex2D(_HatchTex, texLookUp(i.uv * 27, row + 1, col));
 					output = alphaBlend(output, hatch * 1.2);
 				}
 
-				if (original.a > 0.8)
+				if (original.r > 0.7)
 				{
 					hatch = tex2D(_HatchTex, texLookUp(i.uv * 30, row, col + 1));
 					output = alphaBlend(output, hatch * 1.5);
