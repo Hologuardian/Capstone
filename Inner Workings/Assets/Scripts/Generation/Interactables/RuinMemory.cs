@@ -9,6 +9,8 @@ public class RuinMemory : Interactable
     {
         GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         obj.transform.position = position;
+        MeshRenderer rend = obj.GetComponent<MeshRenderer>();
+        //rend.material = Resources.Load<Material>("Oscillate");
         //obj.GetComponent<Renderer>().enabled = false;
 
         GameObject obj2 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
