@@ -9,56 +9,119 @@ public class MemoryManager : MonoBehaviour
     public List<Memory> Memories;
 
     public RawImage show;
+    public Text textBox;
+    public Image textBackground;
+    public Image background;
+    public Image imageMask;
 
     public void Start()
     {
         ShowMemory("test");
+        show.enabled = false;
     }
 
     public void ShowMemory(string memory)
     {
-        Texture mem = null;
+        Memory mem = null;
         foreach (Memory m in Memories)
         {
             if (m.name == memory)
-                mem = m.texture;
+                mem = m;
         }
         if(mem != null)
         {
-            show.texture = mem;
-            ((RectTransform)(show.transform)).sizeDelta = new Vector2(mem.width, mem.height);
-            show.enabled = true;
-            StartCoroutine("FadeIn", show);
+            StopAllCoroutines();
+            show.texture = mem.texture;
+            ((RectTransform)(show.transform)).sizeDelta = new Vector2(Mathf.Clamp(mem.texture.width / 2, 0, Screen.width), Mathf.Clamp(mem.texture.height / 2, 0, Screen.height));
+            textBox.enabled = true;
+            textBackground.enabled = true;
+            textBox.text = mem.text;
+            StartCoroutine(FadeIn(mem.time));
+            StartCoroutine(FadeOutText(mem.textTime));
         }
     }
 
-    public IEnumerator FadeIn(RawImage r)
+    public IEnumerator FadeIn(float time)
     {
         float fade = 0.0f;
-        while (fade < 1.0f)
+        while (fade <= 1.1f)
         {
-            Color c = r.color;
+            Color c = show.color;
             c.a = fade;
-            r.color = c;
+            show.color = c;
+            c = textBox.color;
+            c.a = fade;
+            textBox.color = c;
+            c = textBackground.color;
+            c.a = fade;
+            textBackground.color = c;
+            c = background.color;
+            c.a = fade;
+            background.color = c;
             fade += 0.1f;
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.05f);
         }
-        StartCoroutine("FadeOut", r);
+        show.enabled = true;
+        while (fade >= 0.0f)
+        {
+            Color c = imageMask.color;
+            c.a = fade;
+            imageMask.color = c;
+            c = textBox.color;
+            fade -= 0.2f;
+            yield return new WaitForSeconds(0.05f);
+        }
+        StartCoroutine(FadeOut(time));
     }
 
-    public IEnumerator FadeOut(RawImage r)
+    public IEnumerator FadeOut(float time)
     {
-        yield return new WaitForSeconds(2.0f);
-        float fade = 1.0f;
-        while (fade > 0.0f)
+        yield return new WaitForSeconds(time);
+        float fade = 0.0f;
+        while (fade <= 1.1f)
         {
-            Color c = r.color;
+            Color c = imageMask.color;
             c.a = fade;
-            r.color = c;
+            imageMask.color = c;
+            c = textBox.color;
+            fade += 0.2f;
+            yield return new WaitForSeconds(0.05f);
+        }
+        show.enabled = false;
+        Color maskC = imageMask.color;
+        maskC.a = 0;
+        imageMask.color = maskC;
+        fade = 1.0f;
+        while (fade >= -0.1f)
+        {
+            Color c = show.color;
+            c.a = fade;
+            show.color = c;
+            c = background.color;
+            c.a = fade;
+            background.color = c;
             fade -= 0.1f;
             yield return new WaitForSeconds(0.1f);
         }
-        StartCoroutine("FadeOut", r);
-        r.enabled = false;
+    }
+
+    public IEnumerator FadeOutText(float time)
+    {
+        yield return new WaitForSeconds(time + 1.0f);
+        float fade = 1.0f;
+        while (fade >= 0.0f)
+        {
+            Color c = textBox.color;
+            c.a = fade;
+            textBox.color = c;
+            c = textBackground.color;
+            c.a = fade;
+            textBackground.color = c;
+            fade -= 0.1f;
+            yield return new WaitForSeconds(0.1f);
+        }
+        textBox.enabled = false;
+        textBackground.enabled = false;
+        textBox.text = "";
     }
 }

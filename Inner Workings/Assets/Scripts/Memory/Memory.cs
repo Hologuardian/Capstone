@@ -9,4 +9,7 @@ public class Memory
 {
     public string name;
     public Texture texture;
+    public float time;
+    public float textTime;
+    public string text;
 }

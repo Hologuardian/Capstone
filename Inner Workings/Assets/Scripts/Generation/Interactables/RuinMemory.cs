@@ -9,14 +9,28 @@ public class RuinMemory : Interactable
     {
         GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
         obj.transform.position = position;
+        //obj.GetComponent<Renderer>().enabled = false;
 
-        obj.AddComponent<InteractableBehaviour>();
-        obj.GetComponent<InteractableBehaviour>().AttachInteractor(this);
+        GameObject obj2 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
+        obj2.transform.position = position;
+        obj2.tag = "Memory";
+        GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("MemoryTest"));
+
+        particles.transform.position = Vector3.zero;
+        particles.transform.SetParent(obj2.transform, false);
+
+        InteractableBehaviour interactable = obj.AddComponent<InteractableBehaviour>();
+        interactable.AttachInteractor(this);
+        
+        GameObject.Destroy(obj2.GetComponent<Renderer>());
+        SphereCollider trigger = obj2.GetComponent<SphereCollider>();
+        trigger.isTrigger = true;
+        trigger.radius = 13.0f;
         return obj;
     }
 
     public override void Interact()
     {
-        Debug.Log("Hello? From: " + position);
+        GameObject.FindObjectOfType<MemoryManager>().ShowMemory("Ruin");
     }
 }
