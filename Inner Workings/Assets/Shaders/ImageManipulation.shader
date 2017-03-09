@@ -42,6 +42,7 @@
 			{
 				v2f o;
 				o.vertex = mul(UNITY_MATRIX_MVP, v.vertex);
+				o.vertex.y += sin(_Time[3] / 50);
 				o.uv = v.uv;
 				return o;
 			}
