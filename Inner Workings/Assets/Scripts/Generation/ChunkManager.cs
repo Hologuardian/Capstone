@@ -183,6 +183,7 @@ public class ChunkManager : MonoBehaviour
             }
         }
         #endregion
+        zVal = (int)(z % Constants.ChunkWidth);
         #region x&z=0
         if (xVal == 0 && zVal == 0)
         {

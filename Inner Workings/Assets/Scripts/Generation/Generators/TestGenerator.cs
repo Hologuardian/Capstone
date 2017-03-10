@@ -58,7 +58,7 @@ public class TestGenerator : ChunkGenerator
 
                         if (k > 20)
                         {
-                            if (k >= 50)
+                            if (k >= 60)
                             {
                                 color = 0xEEEEFFFF;
                             }
