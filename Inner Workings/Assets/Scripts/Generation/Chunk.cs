@@ -61,7 +61,7 @@ public class Chunk : MonoBehaviour
 
         foreach (Interactable interactable in data.interactables)
         {
-            interactable.GenerateInteractionSphere();
+            interactable.GenerateInteractionSphere(gameObject.transform);
         }
 
         Mesh m = new Mesh();

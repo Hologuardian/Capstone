@@ -84,6 +84,11 @@ Shader "Custom/Oscillation" {
 			//half4 tex = tex2D(_MainTex, IN.uv_MainTex);
 			o.Albedo = _Color.rgb;
 			o.Alpha = _Color.a;
+			o.Specular = 0;
+			o.Gloss = 0;
+			o.Emission = _Color.rgb;
+			//o.Smoothness = 0;
+			//o.Metallic = 0;
 
 		}
 		ENDCG

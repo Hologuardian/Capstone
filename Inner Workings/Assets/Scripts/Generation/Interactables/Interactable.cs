@@ -7,6 +7,6 @@ public abstract class Interactable
         position = pos;
     }
     public Vector3 position;
-    public abstract GameObject GenerateInteractionSphere();
+    public abstract void GenerateInteractionSphere(Transform parent);
     public abstract void Interact();
 }

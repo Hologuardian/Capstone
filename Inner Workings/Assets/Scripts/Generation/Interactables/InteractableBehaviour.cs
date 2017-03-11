@@ -7,9 +7,9 @@ public class InteractableBehaviour : MonoBehaviour
 {
     Interactable interactor;
 
-    bool HasMaterialSaved = false;
-    Material baseMaterial;
-    Renderer render;
+    public bool HasMaterialSaved = false;
+    public Material baseMaterial;
+    public Renderer render;
 
     public void Start()
     {
