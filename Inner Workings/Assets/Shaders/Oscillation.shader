@@ -9,9 +9,9 @@ Shader "Custom/Oscillation" {
 		_Scale ("Scale", Range(0.1, 20)) = 10
 	}
 	SubShader {
-		Tags { "RenderType" = "Transparent" "Queue" = "Geometry" }
+		Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
 		Blend SrcAlpha OneMinusSrcAlpha
-		Cull Back
+		Cull Off
 		LOD 200
 	
 		CGPROGRAM
@@ -19,7 +19,7 @@ Shader "Custom/Oscillation" {
 		// Use shader model 3.0 target, to get nicer looking lighting
 		#pragma target 3.0
 		#pragma vertex vert
-		#pragma surface surf Lambert vertex:vert fullforwardshadows alpha
+		#pragma surface surf Lambert vertex:vert alpha
 		#include "UnityCG.cginc"
 	
 		float _Displacement;

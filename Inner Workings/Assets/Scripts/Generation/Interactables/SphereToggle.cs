@@ -13,7 +13,7 @@ public class SphereToggle : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if(collider.gameObject.tag == "Player")
+        if (collider.gameObject.tag == "Player")
         {
             toggle.enabled = true;
             particles.Play();
