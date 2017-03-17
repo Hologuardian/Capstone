@@ -114,6 +114,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Fog.shader" />
+    <None Include="Assets\Shaders\Fresnel.shader" />
     <None Include="Assets\Shaders\ImageManipulation.shader" />
     <None Include="Assets\Shaders\Oscillation.shader" />
     <None Include="Assets\Shaders\StandardVertexColor.shader" />
