@@ -112,14 +112,8 @@
     <Reference Include="UnityEditor.Graphs">
       <HintPath>Library\UnityAssemblies\UnityEditor.Graphs.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEditor.LinuxStandalone.Extensions">
-      <HintPath>Library\UnityAssemblies\UnityEditor.LinuxStandalone.Extensions.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEditor.WindowsStandalone.Extensions">
       <HintPath>Library\UnityAssemblies\UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
-    </Reference>
-    <Reference Include="UnityEditor.OSXStandalone.Extensions">
-      <HintPath>Library\UnityAssemblies\UnityEditor.OSXStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="SyntaxTree.VisualStudio.Unity.Bridge">
       <HintPath>Library\UnityAssemblies\SyntaxTree.VisualStudio.Unity.Bridge.dll</HintPath>
@@ -155,6 +149,7 @@
   <ItemGroup>
     <None Include="Assets\Shaders\Erosion.compute" />
     <None Include="Assets\Shaders\Fog.shader" />
+    <None Include="Assets\Shaders\Fresnel.shader" />
     <None Include="Assets\Shaders\ImageManipulation.shader" />
     <None Include="Assets\Shaders\Oscillation.shader" />
     <None Include="Assets\Shaders\StandardVertexColor.shader" />
