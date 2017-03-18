@@ -93,10 +93,9 @@ Shader "Custom/Oscillation" {
 
 		void surf (Input IN, inout SurfaceOutput o) 
 		{
-			//float3 worldNormal = mul((float3x3)UNITY_MATRIX_MVP, IN.normal).xyz;
 			float3 eyepos = mul((float3x3)UNITY_MATRIX_MVP, IN.vertex);
 
-			float silhouette = abs(dot(IN.normal, normalize(-eyepos.xyz)));
+			float silhouette = abs(dot(IN.normal, normalize(-UNITY_MATRIX_IT_MV[2].xyz)));
 			if (silhouette < _OutlineNormal)
 			{
 				o.Albedo = float4(1.0f - _Color.r, 1.0f - _Color.g, 1.0f - _Color.b, 1.0f);

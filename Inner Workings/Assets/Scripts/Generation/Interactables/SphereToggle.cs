@@ -7,7 +7,7 @@ using UnityEngine;
 public class SphereToggle : MonoBehaviour
 {
     public Renderer toggle;
-    public ParticleSystem particles;
+    //public ParticleSystem particles;
     public ParticleSystem souls;
     public ParticleSystem rain;
 
@@ -16,7 +16,7 @@ public class SphereToggle : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             toggle.enabled = true;
-            particles.Play();
+            //particles.Play();
             souls.Stop();
             souls.Clear();
         }
@@ -27,7 +27,7 @@ public class SphereToggle : MonoBehaviour
         if (collider.gameObject.tag == "Player")
         {
             toggle.enabled = false;
-            particles.Stop();
+            //particles.Stop();
             //particles.Clear();
             souls.Play();
         }

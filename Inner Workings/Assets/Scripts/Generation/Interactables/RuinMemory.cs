@@ -26,19 +26,19 @@ public class RuinMemory : Interactable
             obj2.transform.SetParent(parent);
             obj2.tag = "Memory";
 
-            GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("MemoryTest"));
+            //GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("MemoryTest"));
             //particles.SetActive(false);
             GameObject souls = GameObject.Instantiate(Resources.Load<GameObject>("Soul Anchor"));
-            ParticleSystem particleSystem = particles.GetComponentInChildren<ParticleSystem>();
-            particleSystem.Stop();
+            //ParticleSystem particleSystem = particles.GetComponentInChildren<ParticleSystem>();
+            //particleSystem.Stop();
             //souls.GetComponentInChildren<ParticleSystem>().Stop();
 
             toggle.toggle = rend;
-            toggle.particles = particleSystem;
+            //toggle.particles = particleSystem;
             toggle.souls = souls.GetComponentInChildren<ParticleSystem>();
 
-            particles.transform.position = Vector3.zero;// new Vector3(0, -0.25f, 0);
-            particles.transform.SetParent(obj2.transform, false);
+            //particles.transform.position = Vector3.zero;// new Vector3(0, -0.25f, 0);
+            //particles.transform.SetParent(obj2.transform, false);
             souls.transform.position = Vector3.zero;
             souls.transform.SetParent(obj2.transform, false);
 
