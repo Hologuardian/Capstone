@@ -4,9 +4,6 @@
 	{
 		_MainTex ("Texture", 2D) = "white" {}
 		_HatchTex("Hatch Tex", 2D) = "white" {}
-
-
-		
 	}
 	SubShader
 	{
@@ -14,16 +11,12 @@
 		Cull Off ZWrite Off ZTest Always
 		//Tags{ "Queue" = "Transparent" "RenderType" = "Transparent" }
 
-		
-
 		Pass
 		{
 			CGPROGRAM
 			#pragma vertex vert alpha
 			#pragma fragment frag Lambert alpha
 		
-
-			
 			#include "UnityCG.cginc"
 
 			struct appdata

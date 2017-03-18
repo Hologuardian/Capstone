@@ -159,6 +159,7 @@
     <None Include="Assets\Shaders\ImageManipulation.shader" />
     <None Include="Assets\Shaders\Oscillation.shader" />
     <None Include="Assets\Shaders\StandardVertexColor.shader" />
+    <None Include="Assets\Shaders\World\Clouds.shader" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />
