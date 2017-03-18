@@ -22,7 +22,7 @@ public class LoadingSceneManager : MonoBehaviour
     public ThreadPriority loadThreadPriority;
 
     [Header("Other")]
-    // If loading additive, link to the cameras audio listener, to avoid multiple active audio listeners
+
     public AudioListener audioListener;
 
     AsyncOperation operation;

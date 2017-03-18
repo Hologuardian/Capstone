@@ -8,14 +8,15 @@ using UnityEngine.UI;
 public class ChunkManager : MonoBehaviour
 {
     private const int ThreadPoolSize = 6;
-    private const int CheckNum = 4;
-    private const int width = 20;
+    private const int CheckNum = 1;
+    public int width = 20;
     public GameObject chunkPrefab;
     public Text textBox;
 
     private Dictionary<long, bool> generatedChunk = new Dictionary<long, bool>();
     private BlockingDictionary<long, Chunk> chunkMap = new BlockingDictionary<long, Chunk>();
     private BlockingDictionary<long, ChunkUpdate> updateMap = new BlockingDictionary<long, ChunkUpdate>();
+    private BlockingDictionary<long, ChunkUpdate> updateGenerationMap = new BlockingDictionary<long, ChunkUpdate>();
     private Dictionary<long, object> lockMap = new Dictionary<long, object>();
     private List<long> chunkList = new List<long>();
     private Queue<long> deletionPool = new Queue<long>();
@@ -25,13 +26,15 @@ public class ChunkManager : MonoBehaviour
     private BlockingQueue<Chunk> finishedGeneration = new BlockingQueue<Chunk>();
     private BlockingQueue<Chunk> finishedUpdate = new BlockingQueue<Chunk>();
     public static bool KillThread = false;
+    private bool updateLock = false;
+    private int updatesRunning = 0;
 
     /**
      Required to be called in order to create thread pool, uses const definition for number of threads to be generated
     */
     public void Start()
     {
-        Chunk.noise = new FastNoise(1234);//UnityEngine.Random.Range(0, int.MaxValue));
+        Chunk.noise = new FastNoise(Constants.seed);// UnityEngine.Random.Range(0, int.MaxValue));
         StartCoroutine(CheckDeletionQueue());
         StartCoroutine(CheckGenerationQueue());
         StartCoroutine(CheckUpdateQueue());
@@ -43,9 +46,9 @@ public class ChunkManager : MonoBehaviour
             thread.Start();
             ThreadPool.Add(thread);
         }
-        for (int i = 2; i < 2 + width; i++)
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 2; j < 2 + width; j++)
+            for (int j = 0; j < width; j++)
             {
                 RequestChunk(i, j, new MarchingChunkMesher());
             }
@@ -96,75 +99,116 @@ public class ChunkManager : MonoBehaviour
         deletionPool.Enqueue(Hash(x, z));
         return;
     }
-
+    
     public void SetBlock(long x, int y, long z, uint value)
     {
         long hash = HashBlock(x, z);
+        int xVal = (int)(x % Constants.ChunkWidth);
+        int zVal = (int)(z % Constants.ChunkWidth);
+        #region Specified Block
         if (!lockMap.ContainsKey(hash))
             lockMap.Add(hash, new object());
         lock (lockMap[hash])
         {
+            if (xVal < 0)
+                xVal = Constants.ChunkWidth + xVal;
+            if (zVal < 0)
+                zVal = Constants.ChunkWidth + zVal;
             if (updateMap.ContainsKey(hash))
             {
-                int xVal = (int)(x % Constants.ChunkWidth);
-                int zVal = (int)(z % Constants.ChunkWidth);
                 updateMap[hash].positions.Add(new long[] { hash, xVal, y, zVal });
                 updateMap[hash].values.Add(value);
-                if (xVal == 0)
-                {
-                    hash = HashBlock(x - 1, z);
-                    if (!lockMap.ContainsKey(hash))
-                        lockMap.Add(hash, new object());
-                    lock (lockMap[hash])
-                    {
-                        if (updateMap.ContainsKey(hash))
-                        {
-                            xVal = Constants.ChunkWidth;
-                            zVal = (int)(z % Constants.ChunkWidth);
-                            updateMap[hash].positions.Add(new long[] { hash, xVal, y, zVal });
-                            updateMap[hash].values.Add(value);
-                        }
-                        else
-                        {
-                            ChunkUpdate update = new ChunkUpdate();
-                            update.positions.Add(new long[] { hash, Constants.ChunkWidth, y, z % Constants.ChunkWidth });
-                            update.values.Add(value);
-                            updateMap[hash] = update;
-                        }
-                    }
-                }
-                if (zVal == 0)
-                {
-                    hash = HashBlock(x, z - 1);
-                    if (!lockMap.ContainsKey(hash))
-                        lockMap.Add(hash, new object());
-                    lock (lockMap[hash])
-                    {
-                        if (updateMap.ContainsKey(hash))
-                        {
-                            xVal = (int)(x % Constants.ChunkWidth);
-                            zVal = Constants.ChunkWidth;
-                            updateMap[hash].positions.Add(new long[] { hash, xVal, y, zVal });
-                            updateMap[hash].values.Add(value);
-                        }
-                        else
-                        {
-                            ChunkUpdate update = new ChunkUpdate();
-                            update.positions.Add(new long[] { hash, x % Constants.ChunkWidth, y, Constants.ChunkWidth });
-                            update.values.Add(value);
-                            updateMap[hash] = update;
-                        }
-                    }
-                }
             }
             else
             {
                 ChunkUpdate update = new ChunkUpdate();
-                update.positions.Add(new long[] { hash, x % Constants.ChunkWidth, y, z % Constants.ChunkWidth });
+                update.positions.Add(new long[] { hash, xVal, y, zVal });
                 update.values.Add(value);
                 updateMap[hash] = update;
             }
         }
+        #endregion
+        #region x=0
+        if (xVal == 0)
+        {
+            hash = HashBlock(x - 1, z);
+            if (!lockMap.ContainsKey(hash))
+                lockMap.Add(hash, new object());
+            lock (lockMap[hash])
+            {
+                xVal = Constants.ChunkWidth;
+                zVal = (int)(z % Constants.ChunkWidth);
+                if (zVal < 0)
+                    zVal = Constants.ChunkWidth + zVal;
+                if (updateMap.ContainsKey(hash))
+                {
+                    updateMap[hash].positions.Add(new long[] { hash, xVal, y, zVal });
+                    updateMap[hash].values.Add(value);
+                }
+                else
+                {
+                    ChunkUpdate update = new ChunkUpdate();
+                    update.positions.Add(new long[] { hash, xVal, y, zVal });
+                    update.values.Add(value);
+                    updateMap.Add(hash, update);
+                }
+            }
+        }
+        xVal = (int)(x % Constants.ChunkWidth);
+        #endregion
+        #region z=0
+        if (zVal == 0)
+        {
+            hash = HashBlock(x, z - 1);
+            if (!lockMap.ContainsKey(hash))
+                lockMap.Add(hash, new object());
+            lock (lockMap[hash])
+            {
+                xVal = (int)(x % Constants.ChunkWidth);
+                zVal = Constants.ChunkWidth;
+                if (xVal < 0)
+                    xVal = Constants.ChunkWidth + xVal;
+                if (updateMap.ContainsKey(hash))
+                {
+                    updateMap[hash].positions.Add(new long[] { hash, xVal, y, zVal });
+                    updateMap[hash].values.Add(value);
+                }
+                else
+                {
+                    ChunkUpdate update = new ChunkUpdate();
+                    update.positions.Add(new long[] { hash, xVal, y, zVal });
+                    update.values.Add(value);
+                    updateMap.Add(hash, update);
+                }
+            }
+        }
+        #endregion
+        zVal = (int)(z % Constants.ChunkWidth);
+        #region x&z=0
+        if (xVal == 0 && zVal == 0)
+        {
+            hash = HashBlock(x - 1, z - 1);
+            if (!lockMap.ContainsKey(hash))
+                lockMap.Add(hash, new object());
+            lock (lockMap[hash])
+            {
+                xVal = Constants.ChunkWidth;
+                zVal = Constants.ChunkWidth;
+                if (updateMap.ContainsKey(hash))
+                {
+                    updateMap[hash].positions.Add(new long[] { hash, xVal, y, zVal });
+                    updateMap[hash].values.Add(value);
+                }
+                else
+                {
+                    ChunkUpdate update = new ChunkUpdate();
+                    update.positions.Add(new long[] { hash, xVal, y, zVal });
+                    update.values.Add(value);
+                    updateMap.Add(hash, update);
+                }
+            }
+        }
+        #endregion
     }
 
     /**
@@ -223,27 +267,29 @@ public class ChunkManager : MonoBehaviour
                     return;
                 switch (request.chunkRequestType)
                 {
+                    #region Generation
                     case ChunkRequest.RequestType.Generation:
                         {
                             long hash = Hash(request.chunk);
                             request.chunk.Generate();
-                            request.chunk.Mesh();
                             if (!lockMap.ContainsKey(hash))
                                 lockMap.Add(hash, new object());
                             lock (lockMap[hash])
                             {
-                                if (updateMap.ContainsKey(Hash(request.chunk)))
+                                if (updateGenerationMap.ContainsKey(hash))
                                 {
-                                    ChunkUpdate update = updateMap[hash];
+                                    ChunkUpdate update = updateGenerationMap[hash];
+                                    updateGenerationMap.Remove(hash);
                                     request.chunk.UpdateData(update);
-                                    //updateMap.Remove(hash);
-                                    request.chunk.Mesh();
                                 }
-
-                                finishedGeneration.Push(request.chunk);
                             }
+                            request.chunk.Mesh();
+
+                            finishedGeneration.Push(request.chunk);
                             break;
                         }
+                    #endregion
+                    #region Update
                     case ChunkRequest.RequestType.Update:
                         {
                             ChunkUpdate update = request.update;
@@ -260,6 +306,7 @@ public class ChunkManager : MonoBehaviour
                                 }
                                 else if (generatedChunk.ContainsKey(hash))
                                 {
+                                    Debug.Log("Could not find Hashed chunk at: " + hash + " but it has been generated!");
                                     if (updateMap.ContainsKey(hash))
                                     {
                                         updateMap[hash].positions.AddRange(update.positions);
@@ -269,39 +316,39 @@ public class ChunkManager : MonoBehaviour
                                 }
                                 else
                                 {
-                                    if (updateMap.ContainsKey(hash))
+                                    Debug.Log("Chunk at: " + (hash % int.MaxValue) + "," + (hash >> 31) + " doesn't exist!");
+                                    if (updateGenerationMap.ContainsKey(hash))
                                     {
-                                        try
-                                        {
-                                            updateMap[hash].positions.AddRange(update.positions);
-                                            updateMap[hash].values.AddRange(update.values);
-                                        }
-                                        catch (Exception e)
-                                        {
-                                            Debug.Log(e.Message + "\n" + e.StackTrace + "\n" + (updateMap[hash] != null) + "::" + (update.positions != null) + "::" + (update.values != null));
-                                        }
+                                        updateGenerationMap[hash].positions.AddRange(update.positions);
+                                        updateGenerationMap[hash].values.AddRange(update.values);
                                     }
                                     else
                                     {
-                                        updateMap.Add(hash, update);
+                                        updateGenerationMap.Add(hash, update);
                                     }
                                 }
                             }
-
                             break;
                         }
+                    #endregion
+                    #region Load
                     case ChunkRequest.RequestType.Load:
                         {
                             break;
                         }
+                    #endregion
+                    #region Save
                     case ChunkRequest.RequestType.Save:
                         {
                             break;
                         }
+                    #endregion
+                    #region Delete
                     case ChunkRequest.RequestType.Deletion:
                         {
                             break;
                         }
+                        #endregion
                 }
             }
             catch(Exception e)
@@ -314,12 +361,14 @@ public class ChunkManager : MonoBehaviour
 
     private void Update()
     {
-        textBox.text = String.Format("Thread Queue: {0}\n", generationRequests.Size())
+        textBox.text = 
+          String.Format("Thread Queue: {0}\n", generationRequests.Size())
         + String.Format("Generated Chunks: {0}\n", chunkList.Count)
         + String.Format("Chunk Updates: {0}\n", chunkUpdateQueue.Count)
         + String.Format("Update Map: {0}\n", updateMap.Count)
         + String.Format("Finished Gen: {0}\n", finishedGeneration.Size())
-        + String.Format("Finished Update: {0}\n", finishedUpdate.Size());
+        + String.Format("Finished Update: {0}\n", finishedUpdate.Size())
+        + String.Format("Ungenerated Updates: {0}\n", updateGenerationMap.Count);
     }
 
     private IEnumerator CheckGenerationQueue()
@@ -338,6 +387,7 @@ public class ChunkManager : MonoBehaviour
                         chunkMap[key] = chunk;
                     else
                         Debug.Log("ERROR: Chunk Hash collision at: " + key + " :: " + chunk.data.ChunkX + " " + chunk.data.ChunkZ);
+                    DynamicGI.UpdateEnvironment();
                 }
             }
             yield return new WaitForEndOfFrame();
@@ -381,6 +431,7 @@ public class ChunkManager : MonoBehaviour
                 {
                     Chunk chunk = finishedUpdate.Pop();
                     chunk.Initialize();
+                    DynamicGI.UpdateEnvironment();
                 }
             }
             yield return new WaitForEndOfFrame();
@@ -393,22 +444,27 @@ public class ChunkManager : MonoBehaviour
         {
             if (KillThread)
                 return;
-            if (updateMap.Count > 0 && generationRequests.Size() == 0)
+            if (updateMap.Count > 0 && generationRequests.Size() == 0 && generationRequests.Empty() && finishedGeneration.Empty())
             {
-                List<long> delete = new List<long>();
-                foreach(long key in updateMap.Keys)
+                try
                 {
-                    generationRequests.Push(new ChunkRequest(ChunkRequest.RequestType.Update, updateMap[key]));
-                    delete.Add(key);
-                }
-                foreach(long key in delete)
-                {
-                    lock(lockMap[key])
+                    List<long> keys = new List<long>();
+                    keys.AddRange(updateMap.Keys);
+                    foreach (long key in keys)
                     {
-                        updateMap.Remove(key);
+                        if (!lockMap.ContainsKey(key))
+                            lockMap.Add(key, new object());
+                        lock (lockMap[key])
+                        {
+                            generationRequests.Push(new ChunkRequest(ChunkRequest.RequestType.Update, updateMap[key]));
+                            updateMap.Remove(key);
+                        }
                     }
                 }
-                delete.Clear();
+                catch (Exception e)
+                {
+                    Debug.Log(e.Message + "\n" + e.StackTrace);
+                }
             }
         }
     }

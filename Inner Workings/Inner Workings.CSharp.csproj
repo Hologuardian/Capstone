@@ -81,10 +81,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\Character\Controller.cs" />
-    <Compile Include="Assets\Scripts\Character\ThirdPersonController.cs" />
+    <Compile Include="Assets\Scripts\ChunkParameters.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\Scripts\FPController.cs" />
+    <Compile Include="Assets\Scripts\FastNoise\Character\Controller.cs" />
+    <Compile Include="Assets\Scripts\FastNoise\Character\ThirdPersonController.cs" />
     <Compile Include="Assets\Scripts\FastNoise\FastNoise.cs" />
     <Compile Include="Assets\Scripts\Generation\BlockingDictionary.cs" />
     <Compile Include="Assets\Scripts\Generation\BlockingQueue.cs" />
@@ -96,13 +97,29 @@
     <Compile Include="Assets\Scripts\Generation\ChunkMesher.cs" />
     <Compile Include="Assets\Scripts\Generation\ChunkRequest.cs" />
     <Compile Include="Assets\Scripts\Generation\ChunkUpdate.cs" />
+    <Compile Include="Assets\Scripts\Generation\Decorators\BushDecorator.cs" />
+    <Compile Include="Assets\Scripts\Generation\Decorators\CircleRuinDecorator.cs" />
     <Compile Include="Assets\Scripts\Generation\Decorators\TestTreeDecorator.cs" />
     <Compile Include="Assets\Scripts\Generation\Generators\CellTestGenerator.cs" />
     <Compile Include="Assets\Scripts\Generation\Generators\TestGenerator.cs" />
+    <Compile Include="Assets\Scripts\Generation\Interactables\Interactable.cs" />
+    <Compile Include="Assets\Scripts\Generation\Interactables\InteractableBehaviour.cs" />
+    <Compile Include="Assets\Scripts\Generation\Interactables\RuinMemory.cs" />
+    <Compile Include="Assets\Scripts\Generation\Interactables\SphereToggle.cs" />
     <Compile Include="Assets\Scripts\Generation\MarchingChunkMesher.cs" />
     <Compile Include="Assets\Scripts\Generation\SimpleVertex.cs" />
+    <Compile Include="Assets\Scripts\Generation\World.cs" />
+    <Compile Include="Assets\Scripts\Memory\Memory.cs" />
+    <Compile Include="Assets\Scripts\Memory\MemoryManager.cs" />
+    <Compile Include="Assets\Scripts\PlayerInteraction.cs" />
+    <Compile Include="Assets\Scripts\Visual\EffectManager.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Shaders\Erosion.compute" />
+    <None Include="Assets\Shaders\Fog.shader" />
+    <None Include="Assets\Shaders\Fresnel.shader" />
+    <None Include="Assets\Shaders\ImageManipulation.shader" />
+    <None Include="Assets\Shaders\Oscillation.shader" />
     <None Include="Assets\Shaders\StandardVertexColor.shader" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />

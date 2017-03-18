@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 2b8c62f44f6f4eb4ebe2a9091e27e507
+timeCreated: 1488306121
+licenseType: Free
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Capstone_Font
+  fontNames:
+  - Capstone_Font
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
