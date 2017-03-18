@@ -32,7 +32,7 @@ public class MemoryManager : MonoBehaviour
         {
             StopAllCoroutines();
             show.texture = mem.texture;
-            ((RectTransform)(show.transform)).sizeDelta = new Vector2(Mathf.Clamp(mem.texture.width / 2, 0, Screen.width), Mathf.Clamp(mem.texture.height / 2, 0, Screen.height));
+            ((RectTransform)(show.transform)).sizeDelta = new Vector2(Mathf.Clamp(mem.texture.width, 0, Screen.width), Mathf.Clamp(mem.texture.height, 0, Screen.height));
             textBox.enabled = true;
             textBackground.enabled = true;
             textBox.text = mem.text;
@@ -62,7 +62,7 @@ public class MemoryManager : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
         show.enabled = true;
-        while (fade >= 0.0f)
+        while (fade >= -0.1f)
         {
             Color c = imageMask.color;
             c.a = fade;

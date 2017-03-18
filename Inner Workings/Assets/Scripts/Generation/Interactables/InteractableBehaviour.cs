@@ -8,7 +8,6 @@ public class InteractableBehaviour : MonoBehaviour
     Interactable interactor;
 
     public bool HasMaterialSaved = false;
-    public Material baseMaterial;
     public Renderer render;
 
     public void Start()
@@ -25,26 +24,19 @@ public class InteractableBehaviour : MonoBehaviour
 
     public void Update()
     {
-        if(resetTimer <= 0.0f)
-        {
-            if(HasMaterialSaved)
-                render.material = baseMaterial;
-        }
-        else
+        render.material.SetColor("_Color", Color.Lerp(Color.white, Color.black, resetTimer));
+        if (resetTimer >= 0.0f)
         {
             resetTimer -= Time.deltaTime;
         }
     }
 
-    public void Hover(Material hover)
+    public void Hover()
     {
-        if (!HasMaterialSaved)
+        if(resetTimer <= 1.0f)
         {
-            baseMaterial = render.material;
-            HasMaterialSaved = true;
+            resetTimer += 0.05f;
         }
-        render.material = hover;
-        resetTimer = 0.1f;
     }
 
     public void Interact()
