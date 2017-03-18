@@ -27,11 +27,11 @@ public class RuinMemory : Interactable
             obj2.tag = "Memory";
 
             GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("MemoryTest"));
-            particles.SetActive(false);
+            //particles.SetActive(false);
             GameObject souls = GameObject.Instantiate(Resources.Load<GameObject>("Soul Anchor"));
             ParticleSystem particleSystem = particles.GetComponentInChildren<ParticleSystem>();
             particleSystem.Stop();
-            souls.GetComponentInChildren<ParticleSystem>().Stop();
+            //souls.GetComponentInChildren<ParticleSystem>().Stop();
 
             toggle.toggle = rend;
             toggle.particles = particleSystem;

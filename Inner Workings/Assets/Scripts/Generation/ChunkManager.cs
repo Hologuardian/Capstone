@@ -34,7 +34,7 @@ public class ChunkManager : MonoBehaviour
     */
     public void Start()
     {
-        Chunk.noise = new FastNoise(1234);// UnityEngine.Random.Range(0, int.MaxValue));
+        Chunk.noise = new FastNoise(Constants.seed);// UnityEngine.Random.Range(0, int.MaxValue));
         StartCoroutine(CheckDeletionQueue());
         StartCoroutine(CheckGenerationQueue());
         StartCoroutine(CheckUpdateQueue());
