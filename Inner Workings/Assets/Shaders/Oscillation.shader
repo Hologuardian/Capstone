@@ -113,8 +113,6 @@ Shader "Custom/Oscillation" {
 			//o.Smoothness = 0;
 			//o.Metallic = 0;
 
-			
-
 		}
 		ENDCG
 	}

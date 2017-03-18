@@ -19,26 +19,46 @@ Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW 
 Loading C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
 Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
 Loading C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
-- Completed reload, in  0.195 seconds
+- Completed reload, in  0.163 seconds
 Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\System.Core.dll (this message is harmless)
 Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\System.dll (this message is harmless)
 <RI> Initializing input.
 <RI> Input initialized.
 desktop: 1920x1080 48Hz; virtual: 1920x1080 at 0,0
 <RI> Initialized touch support.
-UnloadTime: 1.339259 ms
+UnloadTime: 1.552593 ms
 Setting up 2 worker threads for Enlighten.
-  Thread -> id: 1248 -> priority: 1 
-  Thread -> id: 2ae0 -> priority: 1 
+  Thread -> id: 804 -> priority: 1 
+  Thread -> id: 2134 -> priority: 1 
 Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 4.543211 ms
+UnloadTime: 5.712199 ms
 
-Unloading 128 unused Assets to reduce memory usage. Loaded Objects now: 379.
-Total: 13.056005 ms (FindLiveObjects: 0.045037 ms CreateObjectMapping: 0.016197 ms MarkObjects: 0.160395 ms  DeleteObjects: 12.833585 ms)
+Unloading 128 unused Assets to reduce memory usage. Loaded Objects now: 394.
+Total: 13.172548 ms (FindLiveObjects: 0.038321 ms CreateObjectMapping: 0.030024 ms MarkObjects: 0.201876 ms  DeleteObjects: 12.901535 ms)
 
-Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
-UnloadTime: 0.666864 ms
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.758913 ms
 
-Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 4031.
-Total: 2.172840 ms (FindLiveObjects: 0.246123 ms CreateObjectMapping: 0.091259 ms MarkObjects: 1.814124 ms  DeleteObjects: 0.021333 ms)
+Unloading 4 unused Assets to reduce memory usage. Loaded Objects now: 4924.
+Total: 3.690273 ms (FindLiveObjects: 0.310518 ms CreateObjectMapping: 0.170666 ms MarkObjects: 3.186174 ms  DeleteObjects: 0.022518 ms)
+
+Chunk at: 20,0 doesn't exist!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Chunk at: 20,3 doesn't exist!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Chunk at: 20,2 doesn't exist!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Chunk at: 20,1 doesn't exist!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
+
+Chunk at: 20,4 doesn't exist!
+ 
+(Filename: C:/buildslave/unity/build/artifacts/generated/common/runtime/DebugBindings.gen.cpp Line: 51)
 

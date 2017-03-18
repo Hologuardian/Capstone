@@ -52,6 +52,9 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.Advertisements">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -66,6 +69,9 @@
     </Reference>
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.Purchasing">
+      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
@@ -111,10 +117,13 @@
     <Compile Include="Assets\Scripts\Generation\World.cs" />
     <Compile Include="Assets\Scripts\Memory\Memory.cs" />
     <Compile Include="Assets\Scripts\Memory\MemoryManager.cs" />
+    <Compile Include="Assets\Scripts\MemoryFlash.cs" />
     <Compile Include="Assets\Scripts\MenuScript\LoadingSceneManager.cs" />
     <Compile Include="Assets\Scripts\MenuScript\menuScript.cs" />
     <Compile Include="Assets\Scripts\PlayerInteraction.cs" />
     <Compile Include="Assets\Scripts\Visual\EffectManager.cs" />
+    <Compile Include="Assets\Scripts\World\EnvironmentController.cs" />
+    <Compile Include="Assets\Scripts\World\EnvironmentWeatherSystem.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Shaders\Erosion.compute" />
@@ -123,6 +132,7 @@
     <None Include="Assets\Shaders\ImageManipulation.shader" />
     <None Include="Assets\Shaders\Oscillation.shader" />
     <None Include="Assets\Shaders\StandardVertexColor.shader" />
+    <None Include="Assets\Shaders\World\Clouds.shader" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\Effects\GlassRefraction\Shaders\GlassStainedBumpDistort.shader" />
     <None Include="Assets\Standard Assets\Effects\ImageEffects\Shaders\BlendModesOverlay.shader" />

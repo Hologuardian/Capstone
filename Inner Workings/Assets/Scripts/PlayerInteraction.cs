@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 public class PlayerInteraction : MonoBehaviour
 {
-    public Material hoverMaterial;
     public float MaxDistance = 10.0f;
     public void Update()
     {
@@ -12,7 +11,7 @@ public class PlayerInteraction : MonoBehaviour
             InteractableBehaviour behaviour = hit.collider.gameObject.GetComponent<InteractableBehaviour>();
             if (behaviour != null)
             {
-                behaviour.Hover(hoverMaterial);
+                behaviour.Hover();
                 if (Input.GetMouseButtonDown(0))
                 {
                     behaviour.Interact();

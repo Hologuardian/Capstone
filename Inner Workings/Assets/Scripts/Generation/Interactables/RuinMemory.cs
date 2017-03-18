@@ -34,8 +34,6 @@ public class RuinMemory : Interactable
             //souls.GetComponentInChildren<ParticleSystem>().Stop();
 
             toggle.toggle = rend;
-            //toggle.particles = particleSystem;
-            toggle.souls = souls.GetComponentInChildren<ParticleSystem>();
 
             //particles.transform.position = Vector3.zero;// new Vector3(0, -0.25f, 0);
             //particles.transform.SetParent(obj2.transform, false);
