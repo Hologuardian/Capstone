@@ -15,7 +15,7 @@ Shader "Custom/Oscillation" {
 	SubShader {
 		Tags { "RenderType" = "Transparent" "Queue" = "Transparent" }
 		Blend SrcAlpha OneMinusSrcAlpha
-	//	Cull Back
+		Cull Back
 		LOD 200
 	
 		CGPROGRAM

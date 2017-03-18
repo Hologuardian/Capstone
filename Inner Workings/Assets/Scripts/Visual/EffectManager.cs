@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityStandardAssets.ImageEffects;
-using UnityEditor;
 
 public class EffectManager : MonoBehaviour
 {
     public ColorCorrectionCurves Color;
     public EdgeDetection edgeDetect;
     public SunShafts shafts;
+    public Camera cam;
 
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
 	    	
 	}
@@ -39,10 +39,8 @@ public class EffectManager : MonoBehaviour
 
         colorCorrect.MoveKey(0, new Keyframe(0, interp));
         colorCorrect.MoveKey(1, new Keyframe(1, 1.0f - interp));
-        AnimationUtility.SetKeyLeftTangentMode(colorCorrect, 0, AnimationUtility.TangentMode.Linear);
-        AnimationUtility.SetKeyRightTangentMode(colorCorrect, 0, AnimationUtility.TangentMode.Linear);
-        AnimationUtility.SetKeyLeftTangentMode(colorCorrect, 1, AnimationUtility.TangentMode.Linear);
-        AnimationUtility.SetKeyRightTangentMode(colorCorrect, 1, AnimationUtility.TangentMode.Linear);
+        colorCorrect.keys[0].tangentMode = 2;
+        colorCorrect.keys[1].tangentMode = 2;
 
         edgeDetect.edgesOnly = Mathf.Clamp(interp * 2.0f, 0.0f, 1.0f);
         edgeDetect.edgeExp = 1.0f - (interp * 0.3f);
@@ -56,14 +54,32 @@ public class EffectManager : MonoBehaviour
 
     void OnTriggerEnter(Collider collider)
     {
-        if(collider.gameObject.tag == "Memory")
+        if (collider.gameObject.tag == "Memory")
+        {
             colorState = false;
+            StartCoroutine(DisableParticles());
+        }
     }
 
     void OnTriggerExit(Collider collider)
     {
         if (collider.gameObject.tag == "Memory")
+        {
             colorState = true;
+            StartCoroutine(EnableParticles());
+        }
+    }
+
+    IEnumerator DisableParticles()
+    {
+        yield return new WaitForSeconds(0.5f);
+        cam.cullingMask &= (~(1 << LayerMask.NameToLayer("TransparentFX")));
+    }
+
+    IEnumerator EnableParticles()
+    {
+        yield return new WaitForSeconds(0.5f);
+        cam.cullingMask |= (1 << LayerMask.NameToLayer("TransparentFX"));
     }
 
     void ToColor()

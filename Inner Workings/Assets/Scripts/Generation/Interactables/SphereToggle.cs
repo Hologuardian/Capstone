@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Linq;
 using System.Text;
 using UnityEngine;
@@ -8,17 +9,34 @@ public class SphereToggle : MonoBehaviour
 {
     public Renderer toggle;
     //public ParticleSystem particles;
-    public ParticleSystem souls;
     public ParticleSystem rain;
+
+    IEnumerator FadeIn()
+    {
+        yield return new WaitForSeconds(0.5f);
+        toggle.enabled = true;
+        for (float i = 0; i < 1.0f; i += 0.1f)
+        {
+            toggle.material.SetColor("_Color", new Color(1.0f, 1.0f, 1.0f, i));
+            yield return new WaitForSeconds(0.05f);
+        }
+    }
+
+    IEnumerator FadeOut()
+    {
+        for (float i = 1.0f; i > 0.0f; i -= 0.1f)
+        {
+            toggle.material.SetColor("_Color", new Color(1.0f, 1.0f, 1.0f, i));
+            yield return new WaitForSeconds(0.05f);
+        }
+        toggle.enabled = false;
+    }
 
     void OnTriggerEnter(Collider collider)
     {
         if (collider.gameObject.tag == "Player")
         {
-            toggle.enabled = true;
-            //particles.Play();
-            souls.Stop();
-            souls.Clear();
+            StartCoroutine(FadeIn());
         }
     }
 
@@ -26,10 +44,7 @@ public class SphereToggle : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
-            toggle.enabled = false;
-            //particles.Stop();
-            //particles.Clear();
-            souls.Play();
+            StartCoroutine(FadeOut());
         }
     }
 }
