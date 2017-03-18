@@ -1,0 +1,44 @@
+Initialize engine version: 5.5.0f3 (38b4efef76f0)
+GfxDevice: creating device client; threaded=1
+Direct3D:
+    Version:  Direct3D 11.0 [level 11.0]
+    Renderer: NVIDIA GeForce GTX 960M (ID=0x139b)
+    Vendor:   NVIDIA
+    VRAM:     2019 MB
+    Driver:   21.20.16.4534
+Begin MonoManager ReloadAssembly
+Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\UnityEngine.dll (this message is harmless)
+Loading C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\UnityEngine.dll into Unity Child Domain
+Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\Assembly-CSharp-firstpass.dll (this message is harmless)
+Loading C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\Assembly-CSharp-firstpass.dll into Unity Child Domain
+Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\Assembly-CSharp.dll (this message is harmless)
+Loading C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\Assembly-CSharp.dll into Unity Child Domain
+Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\UnityEngine.UI.dll (this message is harmless)
+Loading C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\UnityEngine.UI.dll into Unity Child Domain
+Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\UnityEngine.Networking.dll (this message is harmless)
+Loading C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\UnityEngine.Networking.dll into Unity Child Domain
+Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll (this message is harmless)
+Loading C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\UnityEngine.PlaymodeTestsRunner.dll into Unity Child Domain
+- Completed reload, in  0.195 seconds
+Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\System.Core.dll (this message is harmless)
+Platform assembly: C:\Users\liamj\OneDrive\Documents\Capstone\Inner Workings\IW Menu Testing_Data\Managed\System.dll (this message is harmless)
+<RI> Initializing input.
+<RI> Input initialized.
+desktop: 1920x1080 48Hz; virtual: 1920x1080 at 0,0
+<RI> Initialized touch support.
+UnloadTime: 1.339259 ms
+Setting up 2 worker threads for Enlighten.
+  Thread -> id: 1248 -> priority: 1 
+  Thread -> id: 2ae0 -> priority: 1 
+Unloading 5 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 4.543211 ms
+
+Unloading 128 unused Assets to reduce memory usage. Loaded Objects now: 379.
+Total: 13.056005 ms (FindLiveObjects: 0.045037 ms CreateObjectMapping: 0.016197 ms MarkObjects: 0.160395 ms  DeleteObjects: 12.833585 ms)
+
+Unloading 4 Unused Serialized files (Serialized files now loaded: 0)
+UnloadTime: 0.666864 ms
+
+Unloading 6 unused Assets to reduce memory usage. Loaded Objects now: 4031.
+Total: 2.172840 ms (FindLiveObjects: 0.246123 ms CreateObjectMapping: 0.091259 ms MarkObjects: 1.814124 ms  DeleteObjects: 0.021333 ms)
+
