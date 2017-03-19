@@ -28,12 +28,14 @@ public class ChunkManager : MonoBehaviour
     public static bool KillThread = false;
     private bool updateLock = false;
     private int updatesRunning = 0;
+    private GameObject chunkParent;
 
     /**
      Required to be called in order to create thread pool, uses const definition for number of threads to be generated
     */
     public void Start()
     {
+        chunkParent = new GameObject("Chunk Parent");
         Chunk.noise = new FastNoise(Constants.seed);// UnityEngine.Random.Range(0, int.MaxValue));
         StartCoroutine(CheckDeletionQueue());
         StartCoroutine(CheckGenerationQueue());
@@ -46,13 +48,14 @@ public class ChunkManager : MonoBehaviour
             thread.Start();
             ThreadPool.Add(thread);
         }
-        for (int i = 0; i < width; i++)
+        for (int i = 1024; i < width + 1024; i++)
         {
-            for (int j = 0; j < width; j++)
+            for (int j = 1024; j < width + 1024; j++)
             {
                 RequestChunk(i, j, new MarchingChunkMesher());
             }
         }
+        chunkParent.transform.position = new Vector3(-1024 * Constants.ChunkWidth, 0, -1024 * Constants.ChunkWidth);
     }
 
     public void OnDisable()
@@ -85,6 +88,7 @@ public class ChunkManager : MonoBehaviour
     {
         Chunk chunk = Instantiate(chunkPrefab).GetComponent<Chunk>();
         chunk.ThreadInitialize(x, z, mesher);
+        chunk.transform.SetParent(chunkParent.transform);
         generationRequests.Push(new ChunkRequest(ChunkRequest.RequestType.Generation, chunk));
     }
 

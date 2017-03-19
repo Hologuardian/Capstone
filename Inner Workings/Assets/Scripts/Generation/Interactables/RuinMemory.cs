@@ -5,13 +5,15 @@ public class RuinMemory : Interactable
 {
     bool SphereGenerated = false;
     float radius;
+    Vector3 position;
 
-    public RuinMemory(Vector3 pos, float radius) : base(pos)
+    public RuinMemory(Vector3 pos, float radius)
     {
         this.radius = radius;
+        position = pos;
     }
 
-    public override void GenerateInteractionSphere(Transform parent)
+    public void GenerateInteractionSphere(Transform parent)
     {
         if (!SphereGenerated)
         {
@@ -23,12 +25,12 @@ public class RuinMemory : Interactable
             rend.material = Resources.Load<Material>("Oscillate");
 
             obj.GetComponent<Renderer>().enabled = false;
-            obj.transform.SetParent(parent);
+            obj.transform.SetParent(parent, false);
 
             GameObject obj2 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             SphereToggle toggle = obj2.AddComponent<SphereToggle>();
             obj2.transform.position = position;
-            obj2.transform.SetParent(parent);
+            obj2.transform.SetParent(parent, false);
             obj2.tag = "Memory";
 
             //GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("MemoryTest"));
@@ -55,7 +57,7 @@ public class RuinMemory : Interactable
         }
     }
 
-    public override void Interact()
+    public void Interact()
     {
         GameObject.FindObjectOfType<MemoryManager>().ShowMemory("Ruin");
     }

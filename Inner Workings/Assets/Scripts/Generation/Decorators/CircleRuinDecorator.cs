@@ -46,7 +46,7 @@ public class CircleRuinDecorator : ChunkDecorator
                     {
                         if(height == 2)
                         {
-                            data.interactables.Add(new RuinMemory(new Vector3(i + data.ChunkX * Constants.ChunkWidth, k, j + data.ChunkZ * Constants.ChunkWidth), ruins[(int)((noiseVal / chance) * ruins.Count)].ruinRadius));
+                            data.interactables.Add(new RuinMemory(new Vector3(i, k, j), ruins[(int)((noiseVal / chance) * ruins.Count)].ruinRadius));
                         }
                         if(height == 7)
                         {
