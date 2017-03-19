@@ -4,7 +4,12 @@ using UnityEngine;
 public class RuinMemory : Interactable
 {
     bool SphereGenerated = false;
-    public RuinMemory(Vector3 pos) : base(pos) { }
+    float radius;
+
+    public RuinMemory(Vector3 pos, float radius) : base(pos)
+    {
+        this.radius = radius;
+    }
 
     public override void GenerateInteractionSphere(Transform parent)
     {
@@ -46,7 +51,7 @@ public class RuinMemory : Interactable
             GameObject.Destroy(obj2.GetComponent<Renderer>());
             SphereCollider trigger = obj2.GetComponent<SphereCollider>();
             trigger.isTrigger = true;
-            trigger.radius = 13.0f;
+            trigger.radius = radius;
         }
     }
 

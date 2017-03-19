@@ -169,10 +169,9 @@ public class World : MonoBehaviour
                 float rainMax = Mathf.Clamp01(noise.GetPerlin(i * 2.0f, j * 2.0f, 10) * 0.125f + 0.125f);
                 float evaporation = Mathf.Clamp01(noise.GetPerlin(i * 4.0f, j * 4.0f, 200) * 0.025f + 0.05f);
                 float h = GetHeight(i, j);
-                if (noise.GetWhiteNoiseInt(i, j) > 0.99f && h > 0.35f)
-                    rainMax = 1.0f;
+                //if (noise.GetWhiteNoiseInt(i, j) > 0.999f)
+                //    rainMax = 1.0f;
                 dataColors[i + j * Constants.WorldSize] = new Color32((byte)(h * 255.0f), (byte)(evaporation * 255.0f), (byte)(rainMax * 255.0f), 255);
-                //dataColors[i + j * Constants.WorldSize] = new Color32(0, (byte)(rainMin * 255.0f), (byte)(rainMax * 255.0f), 255);
             }
            Debug.Log("Generating world chunk " + (n + m * 4) + "... " + (int)((i - n * fourthWorldSize) / (fourthWorldSize / 100.0f)) + "%");
         }
