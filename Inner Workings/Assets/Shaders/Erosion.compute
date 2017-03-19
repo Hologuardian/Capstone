@@ -35,23 +35,23 @@ void FlowSetup (uint3 id : SV_DispatchThreadID)
 
     float2 deltaHeightR2 = (Result[id.xy].rb) - (Result[id.xy + float2(1, 0)].rb);
     float deltaHeightR = abs(deltaHeightR2.x) + abs(deltaHeightR2.y);
-    float flowR = max(0, Flow[id.xy].x) + deltaTime * A * (0.981f * deltaHeightR) / l;
+    float flowR = max(0, Flow[id.xy].x) + deltaTime * A * (9.81f * deltaHeightR) / l;
 
     float2 deltaHeightT2 = (Result[id.xy].rb) - (Result[id.xy + float2(0, 1)].rb);
     float deltaHeightT = abs(deltaHeightT2.x) + abs(deltaHeightT2.y);
-    float flowT = max(0, Flow[id.xy].y) + deltaTime * A * (0.981f * deltaHeightT) / l;
+    float flowT = max(0, Flow[id.xy].y) + deltaTime * A * (9.81f * deltaHeightT) / l;
 
     float2 deltaHeightL2 = (Result[id.xy].rb) - (Result[id.xy + float2(-1, 0)].rb);
     float deltaHeightL = abs(deltaHeightL2.x) + abs(deltaHeightL2.y);
-    float flowL = max(0, Flow[id.xy].z) + deltaTime * A * (0.981f * deltaHeightL) / l;
+    float flowL = max(0, Flow[id.xy].z) + deltaTime * A * (9.81f * deltaHeightL) / l;
 
     float2 deltaHeightB2 = (Result[id.xy].rb) - (Result[id.xy + float2(0, -1)].rb);
     float deltaHeightB = abs(deltaHeightB2.x) + abs(deltaHeightB2.y);
-    float flowB = max(0, Flow[id.xy].w) + deltaTime * A * (0.981f * deltaHeightB) / l;
+    float flowB = max(0, Flow[id.xy].w) + deltaTime * A * (9.81f * deltaHeightB) / l;
 
     Flow[id.xy] = float4(flowR, flowT, flowL, flowB);
 
-    float K = min(1, (Result[id.xy].b * l * l) / ((Flow[id.xy].x + Flow[id.xy].y + Flow[id.xy].z + Flow[id.xy].w) * deltaTime));
+    float K = min(1, (Result[id.xy].b) / ((Flow[id.xy].x + Flow[id.xy].y + Flow[id.xy].z + Flow[id.xy].w) * deltaTime));
 
     Flow[id.xy] *= K;
 }
