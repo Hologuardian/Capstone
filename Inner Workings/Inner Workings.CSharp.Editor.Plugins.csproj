@@ -147,6 +147,9 @@
     <Compile Include="Assets\Standard Assets\Editor\ImageEffects\VignetteAndChromaticAberrationEditor.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Resources\Additive Distortion.shader" />
+    <None Include="Assets\Resources\Multiple Distortion.shader" />
+    <None Include="Assets\Shaders\Additive Distortion.shader" />
     <None Include="Assets\Shaders\ColoredGlobalFog.shader" />
     <None Include="Assets\Shaders\Erosion.compute" />
     <None Include="Assets\Shaders\Fog.shader" />

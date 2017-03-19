@@ -6,6 +6,8 @@ public class RuinMemory : Interactable
     bool SphereGenerated = false;
     float radius;
     Vector3 position;
+    static int memoryIndex;
+    const int numRuinMemories = 2;
 
     public RuinMemory(Vector3 pos, float radius)
     {
@@ -32,18 +34,14 @@ public class RuinMemory : Interactable
             obj2.transform.position = position;
             obj2.transform.SetParent(parent, false);
             obj2.tag = "Memory";
-
-            //GameObject particles = GameObject.Instantiate(Resources.Load<GameObject>("MemoryTest"));
-            //particles.SetActive(false);
+            
             GameObject souls = GameObject.Instantiate(Resources.Load<GameObject>("Soul Anchor"));
-            //ParticleSystem particleSystem = particles.GetComponentInChildren<ParticleSystem>();
-            //particleSystem.Stop();
-            //souls.GetComponentInChildren<ParticleSystem>().Stop();
+            var soulSystem = souls.GetComponentInChildren<ParticleSystem>();
+            var soulEmissionShape = soulSystem.shape;
+            soulEmissionShape.radius = radius;
 
             toggle.toggle = rend;
-
-            //particles.transform.position = Vector3.zero;// new Vector3(0, -0.25f, 0);
-            //particles.transform.SetParent(obj2.transform, false);
+            
             souls.transform.position = Vector3.zero;
             souls.transform.SetParent(obj2.transform, false);
 
@@ -59,6 +57,7 @@ public class RuinMemory : Interactable
 
     public void Interact()
     {
-        GameObject.FindObjectOfType<MemoryManager>().ShowMemory("Ruin");
+        GameObject.FindObjectOfType<MemoryManager>().ShowMemory("Ruin" + (memoryIndex % numRuinMemories));
+        memoryIndex++;
     }
 }
