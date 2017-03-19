@@ -55,7 +55,7 @@ public class ChunkManager : MonoBehaviour
                 RequestChunk(i, j, new MarchingChunkMesher());
             }
         }
-        chunkParent.transform.position = new Vector3(-1024 * Constants.ChunkWidth, 0, -1024 * Constants.ChunkWidth);
+        chunkParent.transform.position = new Vector3(-1034 * Constants.ChunkWidth, 0, -1034 * Constants.ChunkWidth);
     }
 
     public void OnDisable()
