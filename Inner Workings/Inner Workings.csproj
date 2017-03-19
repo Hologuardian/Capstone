@@ -119,6 +119,7 @@
     <Compile Include="Assets\Scripts\Memory\MemoryManager.cs" />
     <Compile Include="Assets\Scripts\MemoryFlash.cs" />
     <Compile Include="Assets\Scripts\MenuScript\LoadingSceneManager.cs" />
+    <Compile Include="Assets\Scripts\MenuScript\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\MenuScript\menuScript.cs" />
     <Compile Include="Assets\Scripts\PlayerInteraction.cs" />
     <Compile Include="Assets\Scripts\Visual\EffectManager.cs" />
