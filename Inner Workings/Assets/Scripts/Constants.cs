@@ -11,4 +11,7 @@ public static class Constants
     public const float BlockWidth = 1.0f;
     public const float BlockHeight = 1.0f;
     public const int WorldSize = 4096;
+
+    public const string musicValue = "Current Music Value";
+    public const string sfxValue = "Current SFX Value";
 }

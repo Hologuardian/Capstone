@@ -19,30 +19,29 @@ public class menuScript : MonoBehaviour
     public Button backText;
     public Button audioText;
     public Button videoText;
-    public Button gameplayText;
 
     //Game Objects for Options menus
     public GameObject audioStuff;
     public GameObject videoStuff;
+
+    //Public Sliders
+    public Slider sfxSlider;
+    public Slider musicSlider;
+
+    //Public AudioSources
+    public AudioSource musicSource;
+    public AudioSource sfxSource;
 
     //Aspect Ratio Variables
     public Toggle[] resToggles;
     public Toggle fullScreenToggle;
     public int[] screenWidths;
     int activeScreenResIndex;
+    float sfxValue;
+    float musicValue;
 
     void Start()
     {
-        // Get all the menu components
-        quitMenu = quitMenu.GetComponent<Canvas>();
-        startMenu = startMenu.GetComponent<Canvas>();
-        optionsMenu = optionsMenu.GetComponent<Canvas>();
-        startText = startText.GetComponent<Button>();
-        quitText = quitText.GetComponent<Button>();
-        optionText = optionText.GetComponent<Button>();
-        audioText = audioText.GetComponent<Button>();
-        videoText = videoText.GetComponent<Button>();
-
         activeScreenResIndex = PlayerPrefs.GetInt("Screen res index");
         bool isFullScreen = (PlayerPrefs.GetInt("Fullscreen") == 1) ? true : false;
 
@@ -52,6 +51,12 @@ public class menuScript : MonoBehaviour
         }
 
         fullScreenToggle.isOn = isFullScreen;
+
+        musicValue = PlayerPrefs.GetFloat(Constants.musicValue);
+        musicSlider.value = musicValue;
+
+        sfxValue = PlayerPrefs.GetFloat(Constants.sfxValue);
+        sfxSlider.value = sfxValue;
 
         //Disable the quit/options menu on start
         optionsMenu.enabled = false;
@@ -104,6 +109,8 @@ public class menuScript : MonoBehaviour
         }
 
         LoadingSceneManager.LoadScene(num);
+
+        DontDestroyOnLoad(optionsMenu);
     }
 
     //Options Menu Items
@@ -144,6 +151,19 @@ public class menuScript : MonoBehaviour
         }
 
         PlayerPrefs.SetInt("Fullscreen", ((isFullScreen ? 1 : 0)));
+        PlayerPrefs.Save();
+    }
+    public void SetMusicAudio()
+    {
+        musicSource.volume = musicSlider.value;
+        PlayerPrefs.SetFloat(Constants.musicValue, musicSlider.value);
+        PlayerPrefs.Save();
+    }
+
+    public void SetSFXAudio()
+    {
+        sfxSource.volume = sfxSlider.value;
+        PlayerPrefs.SetFloat(Constants.sfxValue, sfxSlider.value);
         PlayerPrefs.Save();
     }
 
