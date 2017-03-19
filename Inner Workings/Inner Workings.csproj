@@ -117,6 +117,7 @@
     <Compile Include="Assets\Scripts\Memory\Memory.cs" />
     <Compile Include="Assets\Scripts\Memory\MemoryManager.cs" />
     <Compile Include="Assets\Scripts\MemoryFlash.cs" />
+    <Compile Include="Assets\Scripts\MenuScript\Credits.cs" />
     <Compile Include="Assets\Scripts\MenuScript\LoadingSceneManager.cs" />
     <Compile Include="Assets\Scripts\MenuScript\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\MenuScript\menuScript.cs" />
@@ -132,6 +133,7 @@
     <None Include="Assets\Resources\Additive Distortion.shader" />
     <None Include="Assets\Resources\Multiple Distortion.shader" />
     <None Include="Assets\Shaders\Additive Distortion.shader" />
+    <None Include="Assets\Shaders\ColoredGlobalFog.shader" />
     <None Include="Assets\Shaders\Erosion.compute" />
     <None Include="Assets\Shaders\Fog.shader" />
     <None Include="Assets\Shaders\Fresnel.shader" />
