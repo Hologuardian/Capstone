@@ -52,9 +52,6 @@
     <Reference Include="UnityEngine">
       <HintPath>Library\UnityAssemblies\UnityEngine.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Advertisements">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Advertisements.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.UI">
       <HintPath>Library\UnityAssemblies\UnityEngine.UI.dll</HintPath>
     </Reference>
@@ -70,9 +67,6 @@
     <Reference Include="UnityEngine.HoloLens">
       <HintPath>Library\UnityAssemblies\UnityEngine.HoloLens.dll</HintPath>
     </Reference>
-    <Reference Include="UnityEngine.Purchasing">
-      <HintPath>Library\UnityAssemblies\UnityEngine.Purchasing.dll</HintPath>
-    </Reference>
     <Reference Include="UnityEngine.VR">
       <HintPath>Library\UnityAssemblies\UnityEngine.VR.dll</HintPath>
     </Reference>
@@ -87,6 +81,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\LookAt.cs" />
     <Compile Include="Assets\Scripts\ChunkParameters.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\Scripts\FPController.cs" />
@@ -95,6 +90,10 @@
     <Compile Include="Assets\Scripts\FastNoise\FastNoise.cs" />
     <Compile Include="Assets\Scripts\Generation\BlockingDictionary.cs" />
     <Compile Include="Assets\Scripts\Generation\BlockingQueue.cs" />
+    <Compile Include="Assets\Scripts\Generation\Buildings\CircleRuin.cs" />
+    <Compile Include="Assets\Scripts\Generation\Buildings\PillarRuin.cs" />
+    <Compile Include="Assets\Scripts\Generation\Buildings\StonehengeRuin.cs" />
+    <Compile Include="Assets\Scripts\Generation\Buildings\TowerRuin.cs" />
     <Compile Include="Assets\Scripts\Generation\Chunk.cs" />
     <Compile Include="Assets\Scripts\Generation\ChunkData.cs" />
     <Compile Include="Assets\Scripts\Generation\ChunkDecorator.cs" />
@@ -121,12 +120,18 @@
     <Compile Include="Assets\Scripts\MenuScript\LoadingSceneManager.cs" />
     <Compile Include="Assets\Scripts\MenuScript\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\MenuScript\menuScript.cs" />
+    <Compile Include="Assets\Scripts\MenuScript\musicSingleton.cs" />
     <Compile Include="Assets\Scripts\PlayerInteraction.cs" />
+    <Compile Include="Assets\Scripts\PlayerPausing.cs" />
+    <Compile Include="Assets\Scripts\TriggerEnterForWorld.cs" />
     <Compile Include="Assets\Scripts\Visual\EffectManager.cs" />
     <Compile Include="Assets\Scripts\World\EnvironmentController.cs" />
     <Compile Include="Assets\Scripts\World\EnvironmentWeatherSystem.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Resources\Additive Distortion.shader" />
+    <None Include="Assets\Resources\Multiple Distortion.shader" />
+    <None Include="Assets\Shaders\Additive Distortion.shader" />
     <None Include="Assets\Shaders\Erosion.compute" />
     <None Include="Assets\Shaders\Fog.shader" />
     <None Include="Assets\Shaders\Fresnel.shader" />

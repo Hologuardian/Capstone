@@ -42,16 +42,6 @@ public class menuScript : MonoBehaviour
 
     void Start()
     {
-        // Get all the menu components
-        quitMenu = quitMenu.GetComponent<Canvas>();
-        startMenu = startMenu.GetComponent<Canvas>();
-        optionsMenu = optionsMenu.GetComponent<Canvas>();
-        startText = startText.GetComponent<Button>();
-        quitText = quitText.GetComponent<Button>();
-        optionText = optionText.GetComponent<Button>();
-        audioText = audioText.GetComponent<Button>();
-        videoText = videoText.GetComponent<Button>();
-
         activeScreenResIndex = PlayerPrefs.GetInt("Screen res index");
         bool isFullScreen = (PlayerPrefs.GetInt("Fullscreen") == 1) ? true : false;
 

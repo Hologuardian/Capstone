@@ -28,7 +28,7 @@ public class LoadingSceneManager : MonoBehaviour
     AsyncOperation operation;
     Scene currentScene;
 
-    public static int sceneToLoad = +1;
+    public static int sceneToLoad = 1;
     // IMPORTANT! This is the build index of your loading scene. You need to change this to match your actual scene index
     static int loadingSceneIndex = 1;
 
