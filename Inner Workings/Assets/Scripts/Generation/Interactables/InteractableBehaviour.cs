@@ -42,6 +42,9 @@ public class InteractableBehaviour : MonoBehaviour
     public void Interact()
     {
         interactor.Interact();
-        Destroy(gameObject, 0.16f);
+        if(interactor is RuinMemory)
+        {
+            Destroy(gameObject, 0.16f);
+        }
     }
 }

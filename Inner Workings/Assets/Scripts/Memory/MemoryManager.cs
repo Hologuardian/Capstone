@@ -65,10 +65,10 @@ public class MemoryManager : MonoBehaviour
             c.a = fade;
             show.color = c;
             c = textBox.color;
-            c.a = fade * 0.6f;
+            c.a = fade;
             textBox.color = c;
             c = textBackground.color;
-            c.a = fade;
+            c.a = fade * 0.6f;
             textBackground.color = c;
             c = background.color;
             c.a = fade;
