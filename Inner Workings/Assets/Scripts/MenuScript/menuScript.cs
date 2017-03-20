@@ -19,6 +19,7 @@ public class menuScript : MonoBehaviour
     public Button backText;
     public Button audioText;
     public Button videoText;
+    public Button creditsButton;
 
     //Game Objects for Options menus
     public GameObject audioStuff;
@@ -63,6 +64,10 @@ public class menuScript : MonoBehaviour
         quitMenu.enabled = false;
         audioStuff.SetActive(false);
         videoStuff.SetActive(false);
+    }
+    public void CreditsPressed()
+    {
+        SceneManager.LoadScene("Credits");
     }
 
     //Button to open options
