@@ -22,9 +22,11 @@ public class PauseMenu : MonoBehaviour
 
     public Slider sfxSlider;
     public Slider musicSlider;
+    public Slider voiceSlider;
 
     public AudioSource musicSource;
     public AudioSource sfxSource;
+    public AudioSource voiceSource;
 
     public Toggle[] resToggles;
     public Toggle fullScreenToggle;
@@ -32,6 +34,7 @@ public class PauseMenu : MonoBehaviour
     int activeScreenResIndex;
     float sfxValue;
     float musicValue;
+    float voiceValue;
 
     void Start ()
     {
@@ -50,6 +53,9 @@ public class PauseMenu : MonoBehaviour
 
         sfxValue = PlayerPrefs.GetFloat(Constants.sfxValue);
         sfxSlider.value = sfxValue;
+
+        voiceValue = PlayerPrefs.GetFloat(Constants.voiceValue);
+        voiceSlider.value = voiceValue;
 
         optionsMenu.enabled = true;
         optionsStuff.SetActive(false);
@@ -144,6 +150,13 @@ public class PauseMenu : MonoBehaviour
     {
         sfxSource.volume = sfxSlider.value;
         PlayerPrefs.SetFloat(Constants.sfxValue, sfxSlider.value);
+        PlayerPrefs.Save();
+    }
+
+    public void SetVoiceAudio()
+    {
+        voiceSource.volume = voiceSlider.value;
+        PlayerPrefs.SetFloat(Constants.voiceValue, voiceSlider.value);
         PlayerPrefs.Save();
     }
 }
