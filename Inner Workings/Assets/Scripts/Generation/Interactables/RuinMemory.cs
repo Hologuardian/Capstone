@@ -61,7 +61,7 @@ public class RuinMemory : Interactable
         memoryIndex++;
         if (memoryIndex % numRuinMemories == 0)
         {
-            GameObject.FindObjectOfType<MemoryManager>().SwitchToIsolationScene(6.0f);
+            GameObject.FindObjectOfType<MemoryManager>().SwitchToIsolationScene(35.724f);
         }
     }
 }
