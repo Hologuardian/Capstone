@@ -14,4 +14,5 @@ public static class Constants
 
     public const string musicValue = "Current Music Value";
     public const string sfxValue = "Current SFX Value";
+    public const string voiceValue = "Current Voice Value";
 }

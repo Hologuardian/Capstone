@@ -28,10 +28,12 @@ public class menuScript : MonoBehaviour
     //Public Sliders
     public Slider sfxSlider;
     public Slider musicSlider;
+    public Slider voiceSlider;
 
     //Public AudioSources
     public AudioSource musicSource;
     public AudioSource sfxSource;
+    public AudioSource voiceSource;
 
     //Aspect Ratio Variables
     public Toggle[] resToggles;
@@ -40,6 +42,7 @@ public class menuScript : MonoBehaviour
     int activeScreenResIndex;
     float sfxValue;
     float musicValue;
+    float voiceValue;
 
     void Start()
     {
@@ -58,6 +61,9 @@ public class menuScript : MonoBehaviour
 
         sfxValue = PlayerPrefs.GetFloat(Constants.sfxValue);
         sfxSlider.value = sfxValue;
+
+        voiceValue = PlayerPrefs.GetFloat(Constants.voiceValue);
+        voiceSlider.value = voiceValue;
 
         //Disable the quit/options menu on start
         optionsMenu.enabled = false;
@@ -169,6 +175,13 @@ public class menuScript : MonoBehaviour
     {
         sfxSource.volume = sfxSlider.value;
         PlayerPrefs.SetFloat(Constants.sfxValue, sfxSlider.value);
+        PlayerPrefs.Save();
+    }
+
+    public void SetVoiceAudio()
+    {
+        voiceSource.volume = voiceSlider.value;
+        PlayerPrefs.SetFloat(Constants.voiceValue, voiceSlider.value);
         PlayerPrefs.Save();
     }
 
