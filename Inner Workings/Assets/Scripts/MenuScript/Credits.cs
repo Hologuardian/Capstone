@@ -7,7 +7,7 @@ public class Credits : MonoBehaviour
 {
 	void Start ()
     {
-        StartCoroutine(swapScene(4.0f));
+        StartCoroutine(swapScene(72.0f));
 	}
 
     private IEnumerator swapScene(float waitTime)

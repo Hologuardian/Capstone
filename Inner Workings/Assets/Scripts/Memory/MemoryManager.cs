@@ -65,7 +65,7 @@ public class MemoryManager : MonoBehaviour
             c.a = fade;
             show.color = c;
             c = textBox.color;
-            c.a = fade;
+            c.a = fade * 0.6f;
             textBox.color = c;
             c = textBackground.color;
             c.a = fade;
@@ -110,7 +110,6 @@ public class MemoryManager : MonoBehaviour
             Color c = imageMask.color;
             c.a = fade;
             imageMask.color = c;
-            c = textBox.color;
             fade += 0.2f;
             yield return new WaitForSeconds(0.05f);
         }
@@ -135,7 +134,7 @@ public class MemoryManager : MonoBehaviour
     public IEnumerator FadeOutText(float time)
     {
         yield return new WaitForSeconds(time + 1.0f);
-        float fade = 1.0f;
+        float fade = 0.6f;
         while (fade >= 0.0f)
         {
             Color c = textBox.color;
