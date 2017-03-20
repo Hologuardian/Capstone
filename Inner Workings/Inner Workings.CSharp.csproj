@@ -13,13 +13,11 @@
     <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
     <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Unity Subset v3.5</TargetFrameworkProfile>
-    <CompilerResponseFile>
-    </CompilerResponseFile>
+    <CompilerResponseFile></CompilerResponseFile>
     <UnityProjectType>Game:1</UnityProjectType>
     <UnityBuildTarget>StandaloneWindows64:19</UnityBuildTarget>
     <UnityVersion>5.5.0f3</UnityVersion>
-    <RootNamespace>
-    </RootNamespace>
+    <RootNamespace></RootNamespace>
     <LangVersion Condition=" '$(VisualStudioVersion)' != '10.0' ">4</LangVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -111,15 +109,17 @@
     <Compile Include="Assets\Scripts\Generation\Generators\TestGenerator.cs" />
     <Compile Include="Assets\Scripts\Generation\Interactables\Interactable.cs" />
     <Compile Include="Assets\Scripts\Generation\Interactables\InteractableBehaviour.cs" />
-    <Compile Include="Assets\Scripts\Generation\Interactables\TreeMemory.cs" />
     <Compile Include="Assets\Scripts\Generation\Interactables\RuinMemory.cs" />
     <Compile Include="Assets\Scripts\Generation\Interactables\SphereToggle.cs" />
+    <Compile Include="Assets\Scripts\Generation\Interactables\TreeMemory.cs" />
     <Compile Include="Assets\Scripts\Generation\MarchingChunkMesher.cs" />
     <Compile Include="Assets\Scripts\Generation\SimpleVertex.cs" />
     <Compile Include="Assets\Scripts\Generation\World.cs" />
     <Compile Include="Assets\Scripts\Memory\Memory.cs" />
     <Compile Include="Assets\Scripts\Memory\MemoryManager.cs" />
     <Compile Include="Assets\Scripts\MemoryFlash.cs" />
+    <Compile Include="Assets\Scripts\MenuScript\Credits.cs" />
+    <Compile Include="Assets\Scripts\MenuScript\FinalScene.cs" />
     <Compile Include="Assets\Scripts\MenuScript\LoadingSceneManager.cs" />
     <Compile Include="Assets\Scripts\MenuScript\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\MenuScript\menuScript.cs" />

@@ -42,5 +42,6 @@ public class InteractableBehaviour : MonoBehaviour
     public void Interact()
     {
         interactor.Interact();
+        Destroy(gameObject);
     }
 }

@@ -7,7 +7,7 @@ public class RuinMemory : Interactable
     float radius;
     Vector3 position;
     static int memoryIndex;
-    const int numRuinMemories = 2;
+    const int numRuinMemories = 14;
 
     public RuinMemory(Vector3 pos, float radius)
     {
@@ -59,5 +59,9 @@ public class RuinMemory : Interactable
     {
         GameObject.FindObjectOfType<MemoryManager>().ShowMemory("Ruin" + (memoryIndex % numRuinMemories));
         memoryIndex++;
+        if (memoryIndex % numRuinMemories == 0)
+        {
+            GameObject.FindObjectOfType<MemoryManager>().SwitchToIsolationScene(6.0f);
+        }
     }
 }

@@ -7,17 +7,14 @@ public class Credits : MonoBehaviour
 {
 	void Start ()
     {
-        StartCoroutine(swapScene(72.0f));
-	}
-	
-	void Update ()
-    {
-		
+        StartCoroutine(swapScene(4.0f));
 	}
 
     private IEnumerator swapScene(float waitTime)
     {
         yield return new WaitForSeconds(waitTime);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
         SceneManager.LoadScene("Main Menu");
     }
 }

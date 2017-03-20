@@ -12,4 +12,5 @@ public class Memory
     public float time;
     public float textTime;
     public string text;
+    public AudioClip audio;
 }

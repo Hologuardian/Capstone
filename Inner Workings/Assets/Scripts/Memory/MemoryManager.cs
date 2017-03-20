@@ -13,11 +13,24 @@ public class MemoryManager : MonoBehaviour
     public Image textBackground;
     public Image background;
     public Image imageMask;
+    public AudioSource source;
+    public AudioSource music;
 
     public void Start()
     {
         ShowMemory("test");
         show.enabled = false;
+    }
+
+    public void SwitchToIsolationScene(float delay)
+    {
+        StartCoroutine(WaitThenSwitchScene(delay, 4));
+    }
+
+    public IEnumerator WaitThenSwitchScene(float time, int scene)
+    {
+        yield return new WaitForSeconds(time);
+        LoadingSceneManager.LoadScene(scene);
     }
 
     public void ShowMemory(string memory)
@@ -32,11 +45,13 @@ public class MemoryManager : MonoBehaviour
         {
             StopAllCoroutines();
             show.texture = mem.texture;
-            ((RectTransform)(show.transform)).sizeDelta = new Vector2(Mathf.Clamp(mem.texture.width, 0, Screen.width), Mathf.Clamp(mem.texture.height, 0, Screen.height));
+            show.gameObject.SetActive(true);
+            //((RectTransform)(show.transform)).sizeDelta = new Vector2(Mathf.Clamp(mem.texture.width, 0, Screen.width), Mathf.Clamp(mem.texture.height, 0, Screen.height));
             textBox.enabled = true;
             textBackground.enabled = true;
             textBox.text = mem.text;
             StartCoroutine(FadeIn(mem.time));
+            StartCoroutine(PlayAudio(mem.audio));
             StartCoroutine(FadeOutText(mem.textTime));
         }
     }
@@ -72,6 +87,18 @@ public class MemoryManager : MonoBehaviour
             yield return new WaitForSeconds(0.05f);
         }
         StartCoroutine(FadeOut(time));
+    }
+
+    public IEnumerator PlayAudio(AudioClip clip)
+    {
+        yield return new WaitForSeconds(0.8f);
+        music.Pause();
+        //Audio
+        source.loop = false;
+        source.clip = clip;
+        source.Play();
+        yield return new WaitForSeconds(clip.length);
+        music.UnPause();
     }
 
     public IEnumerator FadeOut(float time)
