@@ -24,7 +24,7 @@ public class CircleRuinDecorator : ChunkDecorator
         {
             for (int j = 0; j < Constants.ChunkWidth + 1; j++)
             {
-                float chance = 0.000425f;
+                float chance = 0.000125f;
                 bool tree = false;
                 float noiseVal = (noise.GetWhiteNoiseInt(i + data.ChunkX * (Constants.ChunkWidth), j + data.ChunkZ * (Constants.ChunkWidth)) * 0.5f + 0.5f);
                 bool shouldTree = noiseVal < chance;

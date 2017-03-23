@@ -18,6 +18,7 @@ public class ChunkManager : MonoBehaviour
     private BlockingDictionary<long, ChunkUpdate> updateMap = new BlockingDictionary<long, ChunkUpdate>();
     private BlockingDictionary<long, ChunkUpdate> updateGenerationMap = new BlockingDictionary<long, ChunkUpdate>();
     private Dictionary<long, object> lockMap = new Dictionary<long, object>();
+    private Dictionary<long, bool> chunkRequested = new Dictionary<long, bool>();
     private List<long> chunkList = new List<long>();
     private Queue<long> deletionPool = new Queue<long>();
     private Queue<ChunkUpdate> chunkUpdateQueue = new Queue<ChunkUpdate>();
@@ -33,10 +34,23 @@ public class ChunkManager : MonoBehaviour
     /**
      Required to be called in order to create thread pool, uses const definition for number of threads to be generated
     */
-    public void Start()
+    public void OnEnable()
     {
+        generatedChunk.Clear();
+        chunkMap.Clear();
+        updateMap.Clear();
+        updateGenerationMap.Clear();
+        lockMap.Clear();
+        chunkList.Clear();
+        deletionPool.Clear();
+        chunkUpdateQueue.Clear();
+        ThreadPool.Clear();
+        generationRequests.Clear();
+        finishedGeneration.Clear();
+        finishedUpdate.Clear();
+
         chunkParent = new GameObject("Chunk Parent");
-        Chunk.noise = new FastNoise(Constants.seed);// UnityEngine.Random.Range(0, int.MaxValue));
+        Chunk.noise = new FastNoise(UnityEngine.Random.Range(0, int.MaxValue));
         StartCoroutine(CheckDeletionQueue());
         StartCoroutine(CheckGenerationQueue());
         StartCoroutine(CheckUpdateQueue());
@@ -48,14 +62,18 @@ public class ChunkManager : MonoBehaviour
             thread.Start();
             ThreadPool.Add(thread);
         }
-        for (int i = 1024; i < width + 1024; i++)
+        for (int n = 0; n < width / 2; n++)
         {
-            for (int j = 1024; j < width + 1024; j++)
+            for (int i = 1024 - n; i < n + 1024; i++)
             {
-                RequestChunk(i, j, new MarchingChunkMesher());
+                for (int j = 1024 - n; j < n + 1024; j++)
+                {
+                    if (!chunkRequested.ContainsKey(Hash(i, j)))
+                        RequestChunk(i, j, new MarchingChunkMesher());
+                }
             }
         }
-        chunkParent.transform.position = new Vector3(-1034 * Constants.ChunkWidth, 0, -1034 * Constants.ChunkWidth);
+        chunkParent.transform.position = new Vector3(-1024 * Constants.ChunkWidth, 0, -1024 * Constants.ChunkWidth);
     }
 
     public void OnDisable()
@@ -90,6 +108,7 @@ public class ChunkManager : MonoBehaviour
         chunk.ThreadInitialize(x, z, mesher);
         chunk.transform.SetParent(chunkParent.transform);
         generationRequests.Push(new ChunkRequest(ChunkRequest.RequestType.Generation, chunk));
+        chunkRequested[Hash(x, z)] = true;
     }
 
     /**
