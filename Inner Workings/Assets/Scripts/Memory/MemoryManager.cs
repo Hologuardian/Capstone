@@ -15,6 +15,7 @@ public class MemoryManager : MonoBehaviour
     public Image imageMask;
     public AudioSource source;
     public AudioSource music;
+    public AudioSource sfx;
 
     public void Start()
     {
@@ -93,12 +94,16 @@ public class MemoryManager : MonoBehaviour
     {
         yield return new WaitForSeconds(0.8f);
         music.Pause();
+        if (sfx != null)
+            sfx.Pause();
         //Audio
         source.loop = false;
         source.clip = clip;
         source.Play();
         yield return new WaitForSeconds(clip.length);
         music.UnPause();
+        if (sfx != null)
+            sfx.UnPause();
     }
 
     public IEnumerator FadeOut(float time)
