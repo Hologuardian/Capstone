@@ -72,7 +72,7 @@ public class Chunk : MonoBehaviour
         m.SetVertices(data.points);
         m.SetColors(data.colors);
         m.SetNormals(data.normals);
-        m.SetTriangles(data.triangles.ToArray(), 0);
+        m.SetTriangles(data.triangles, 0);
 
         filter.mesh = m;
         collider.sharedMesh = m;
