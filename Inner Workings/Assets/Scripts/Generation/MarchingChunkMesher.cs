@@ -152,6 +152,106 @@ public class MarchingChunkMesher : ChunkMesher
         }
     }
 
+    public override List<SimpleVertex> MeshArray(uint[] data, int w, int l, int h)
+    {
+        int Corner, Vertex, VertexTest, Edge, Triangle, FlagIndex, EdgeFlags;
+        float Offset;
+        uint[] CubeValue = new uint[8];
+        SimpleVertex[] EdgeVertex = new SimpleVertex[12];
+        List<SimpleVertex> vertices = new List<SimpleVertex>();
+
+        for (int i = 0; i < w; i++)
+        {
+            for (int j = 0; j < l; j++)
+            {
+                for (int k = 0; k < h; k++)
+                {
+                    //unsigned int c = data.values.at(i * (Constants.ChunkWidth + 1) * (Constants.ChunkHeight + 1) + j * (Constants.ChunkHeight + 1) + k);
+                    //Make a local copy of the values at the cube's corners
+                    for (Vertex = 0; Vertex < 8; Vertex++)
+                    {
+                        uint point = data[(int)((i + VertexOffset[Vertex, 0]) * l * h +
+                            (j + VertexOffset[Vertex, 2]) * h +
+                            (k + VertexOffset[Vertex, 1]))];
+                        CubeValue[Vertex] = point;
+                    }
+
+                    //Find which vertices are inside of the surface and which are outside
+                    FlagIndex = 0;
+                    for (VertexTest = 0; VertexTest < 8; VertexTest++)
+                    {
+                        if (CubeValue[VertexTest] % 256 + (CubeValue[VertexTest] >> 8) % 256 + (CubeValue[VertexTest] >> 16) % 256 > 0)
+                            FlagIndex |= 1 << VertexTest;
+                    }
+
+                    //Find which edges are intersected by the surface
+                    EdgeFlags = CubeEdgeFlags[FlagIndex];
+
+                    //If the cube is entirely inside or outside of the surface, then there will be no intersections
+                    if (EdgeFlags == 0)
+                    {
+                        continue;
+                    }
+
+                    //Find the point of intersection of the surface with each edge
+                    //Then find the normal to the surface at those points
+                    for (Edge = 0; Edge < 12; Edge++)
+                    {
+                        //if there is an intersection on this edge
+                        if ((EdgeFlags & (1 << Edge)) != 0)
+                        {
+                            Offset = 0.5f;
+
+                            EdgeVertex[Edge].x = i * Constants.BlockWidth + (VertexOffset[EdgeConnection[Edge, 0], 0] + Offset * EdgeDirection[Edge, 0]) * Constants.BlockWidth;
+                            EdgeVertex[Edge].y = k * Constants.BlockHeight + (VertexOffset[EdgeConnection[Edge, 0], 1] + Offset * EdgeDirection[Edge, 1]) * Constants.BlockHeight;
+                            EdgeVertex[Edge].z = j * Constants.BlockWidth + (VertexOffset[EdgeConnection[Edge, 0], 2] + Offset * EdgeDirection[Edge, 2]) * Constants.BlockWidth;
+
+                            short r1 = (short)((CubeValue[EdgeConnection[Edge, 0]] >> 24) & 255);
+                            short r2 = (short)((CubeValue[EdgeConnection[Edge, 1]] >> 24) & 255);
+                            short g1 = (short)((CubeValue[EdgeConnection[Edge, 0]] >> 16) & 255);
+                            short g2 = (short)((CubeValue[EdgeConnection[Edge, 1]] >> 16) & 255);
+                            short b1 = (short)((CubeValue[EdgeConnection[Edge, 0]] >> 8) & 255);
+                            short b2 = (short)((CubeValue[EdgeConnection[Edge, 1]] >> 8) & 255);
+                            short a1 = (short)((CubeValue[EdgeConnection[Edge, 0]]) & 255);
+                            short a2 = (short)((CubeValue[EdgeConnection[Edge, 1]]) & 255);
+                            EdgeVertex[Edge].r = (byte)((r1 + r2) / 2);
+                            EdgeVertex[Edge].g = (byte)((g1 + g2) / 2);
+                            EdgeVertex[Edge].b = (byte)((b1 + b2) / 2);
+                            EdgeVertex[Edge].a = (byte)((a1 + a2) / 2);
+                        }
+                    }
+
+
+                    //Draw the triangles that were found.  There can be up to five per cube
+                    for (Triangle = 0; Triangle < 5; Triangle++)
+                    {
+                        if (TriangleConnectionTable[FlagIndex, 3 * Triangle] < 0)
+                            break;
+
+                        int VertexA = TriangleConnectionTable[FlagIndex, 3 * Triangle + 0];
+                        Vector3 A = new Vector3(EdgeVertex[VertexA].x, EdgeVertex[VertexA].y, EdgeVertex[VertexA].z);
+                        int VertexB = TriangleConnectionTable[FlagIndex, 3 * Triangle + 1];
+                        Vector3 B = new Vector3(EdgeVertex[VertexB].x, EdgeVertex[VertexB].y, EdgeVertex[VertexB].z);
+                        int VertexC = TriangleConnectionTable[FlagIndex, 3 * Triangle + 2];
+                        Vector3 C = new Vector3(EdgeVertex[VertexC].x, EdgeVertex[VertexC].y, EdgeVertex[VertexC].z);
+
+                        Vector3 AB = B - A;
+                        Vector3 BC = C - B;
+                        Vector3 normal = Vector3.Cross(BC, AB);
+
+                        for (Corner = 2; Corner >= 0; Corner--)
+                        {
+                            Vertex = TriangleConnectionTable[FlagIndex, 3 * Triangle + Corner];
+                            vertices.Add(EdgeVertex[Vertex]);
+                        }
+                    }
+                }
+            }
+        }
+
+        return vertices;
+    }
+
     // For any edge, if one vertex is inside of the surface and the other is outside of the surface
     //  then the edge intersects the surface
     // For each of the 8 vertices of the cube can be two possible states : either inside or outside of the surface

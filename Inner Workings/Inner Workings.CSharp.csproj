@@ -87,7 +87,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\LookAt.cs" />
     <Compile Include="Assets\Scripts\ChunkParameters.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\Scripts\FPController.cs" />
@@ -121,6 +120,7 @@
     <Compile Include="Assets\Scripts\Generation\MarchingChunkMesher.cs" />
     <Compile Include="Assets\Scripts\Generation\SimpleVertex.cs" />
     <Compile Include="Assets\Scripts\Generation\World.cs" />
+    <Compile Include="Assets\Scripts\LookAt.cs" />
     <Compile Include="Assets\Scripts\Memory\Memory.cs" />
     <Compile Include="Assets\Scripts\Memory\MemoryManager.cs" />
     <Compile Include="Assets\Scripts\MemoryFlash.cs" />
@@ -134,6 +134,7 @@
     <Compile Include="Assets\Scripts\PlayerPausing.cs" />
     <Compile Include="Assets\Scripts\TriggerEnterForWorld.cs" />
     <Compile Include="Assets\Scripts\Visual\EffectManager.cs" />
+    <Compile Include="Assets\Scripts\VoxImporter.cs" />
     <Compile Include="Assets\Scripts\World\EnvironmentController.cs" />
     <Compile Include="Assets\Scripts\World\EnvironmentWeatherSystem.cs" />
   </ItemGroup>

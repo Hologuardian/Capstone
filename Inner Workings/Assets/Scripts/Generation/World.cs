@@ -205,7 +205,7 @@ public class World : MonoBehaviour
 
     const float preBiomeEffect = 2.25f;
     const float postBiomeEffect = 0.33333333333f;
-    const float width = Constants.ChunkWidth * 0.5f;
+    const float width = 1;
 
     float GetHeight(int i, int j)
     {
