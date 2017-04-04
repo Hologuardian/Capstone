@@ -109,6 +109,7 @@ public class PauseMenu : MonoBehaviour
 
     public void HubPressed()
     {
+        GameObject.FindObjectOfType<ChunkManager>().enabled = false;
         SceneManager.LoadScene("HubWorld");
     }
 

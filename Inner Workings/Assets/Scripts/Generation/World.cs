@@ -13,9 +13,11 @@ public class World : MonoBehaviour
 
     public Dictionary<long, ChunkParameters> worldData;
     public Texture2D data;
+    public Texture2D detailMap;
     private Color32[] dataColors;
     private Thread[] workers = new Thread[8];
     public ComputeShader shader;
+    public ComputeShader poisson;
     public RenderTexture computeTex;
     public RenderTexture flowTex;
 
@@ -26,10 +28,13 @@ public class World : MonoBehaviour
 
     void Start()
     {
+        DontDestroyOnLoad(gameObject.transform);
         data = new Texture2D(Constants.WorldSize, Constants.WorldSize, TextureFormat.ARGB32, false);
+        detailMap = new Texture2D(Constants.WorldSize, Constants.WorldSize, TextureFormat.ARGB32, false);
         dataColors = new Color32[Constants.WorldSize * Constants.WorldSize];
         startTime = DateTime.Now.Ticks;
-        for(int i = 0; i < 4; i++)
+
+        for (int i = 0; i < 4; i++)
         {
             for(int j = 0; j < 2; j++)
             {
@@ -56,10 +61,12 @@ public class World : MonoBehaviour
 
             data.SetPixels32(dataColors);
             data.Apply();
-            long time = DateTime.Now.Ticks;
             byte[] bytes = data.EncodeToPNG();
             File.WriteAllBytes(Application.dataPath + "/../WorldScaleBefore.png", bytes);
 
+            Poisson(data);
+
+            long time = DateTime.Now.Ticks;
             computeTex = new RenderTexture(Constants.WorldSize, Constants.WorldSize, 0, RenderTextureFormat.ARGB32);
             computeTex.enableRandomWrite = true;
             computeTex.Create();
@@ -69,9 +76,27 @@ public class World : MonoBehaviour
             flowTex.Create();
             const int threadX = 8;
             const int threadY = 8;
-            int kernelHandle;
+            int rainHandle = shader.FindKernel("Rainfall");
+            shader.SetTexture(rainHandle, "Input", data);
+            shader.SetTexture(rainHandle, "Result", computeTex);
+            shader.SetTexture(rainHandle, "Flow", flowTex);
 
-            kernelHandle = shader.FindKernel("SetUpErosion");
+            int flowSetupHandle = shader.FindKernel("FlowSetup");
+            shader.SetTexture(flowSetupHandle, "Input", data);
+            shader.SetTexture(flowSetupHandle, "Result", computeTex);
+            shader.SetTexture(flowSetupHandle, "Flow", flowTex);
+
+            int flowHandle = shader.FindKernel("WaterMotion");
+            shader.SetTexture(flowHandle, "Input", data);
+            shader.SetTexture(flowHandle, "Result", computeTex);
+            shader.SetTexture(flowHandle, "Flow", flowTex);
+
+            int evaporationHandle = shader.FindKernel("Evaporation");
+            shader.SetTexture(evaporationHandle, "Input", data);
+            shader.SetTexture(evaporationHandle, "Result", computeTex);
+            shader.SetTexture(evaporationHandle, "Flow", flowTex);
+
+            int kernelHandle = shader.FindKernel("SetUpErosion");
 
             shader.SetTexture(kernelHandle, "Input", data);
             shader.SetTexture(kernelHandle, "Result", computeTex);
@@ -79,39 +104,18 @@ public class World : MonoBehaviour
 
             shader.Dispatch(kernelHandle, Constants.WorldSize / threadX, Constants.WorldSize / threadY, 1);
 
-            for (int i = 0; i < 96; i++)
+            for (int i = 0; i < 256; i++)
             {
-                kernelHandle = shader.FindKernel("Rainfall");
 
-                shader.SetTexture(kernelHandle, "Input", data);
-                shader.SetTexture(kernelHandle, "Result", computeTex);
-                shader.SetTexture(kernelHandle, "Flow", flowTex);
+                shader.Dispatch(rainHandle, Constants.WorldSize / threadX, Constants.WorldSize / threadY, 1);
 
-                shader.Dispatch(kernelHandle, Constants.WorldSize / threadX, Constants.WorldSize / threadY, 1);
+                //for (int n = 0; n < 3; n++)
+                {
+                    shader.Dispatch(flowSetupHandle, Constants.WorldSize / threadX, Constants.WorldSize / threadY, 1);
+                    shader.Dispatch(flowHandle, Constants.WorldSize / threadX, Constants.WorldSize / threadY, 1);
+                }
 
-                kernelHandle = shader.FindKernel("FlowSetup");
-
-                shader.SetTexture(kernelHandle, "Input", data);
-                shader.SetTexture(kernelHandle, "Result", computeTex);
-                shader.SetTexture(kernelHandle, "Flow", flowTex);
-
-                shader.Dispatch(kernelHandle, Constants.WorldSize / threadX, Constants.WorldSize / threadY, 1);
-
-                kernelHandle = shader.FindKernel("WaterMotion");
-
-                shader.SetTexture(kernelHandle, "Input", data);
-                shader.SetTexture(kernelHandle, "Result", computeTex);
-                shader.SetTexture(kernelHandle, "Flow", flowTex);
-
-                shader.Dispatch(kernelHandle, Constants.WorldSize / threadX, Constants.WorldSize / threadY, 1);
-
-                kernelHandle = shader.FindKernel("Evaporation");
-
-                shader.SetTexture(kernelHandle, "Input", data);
-                shader.SetTexture(kernelHandle, "Result", computeTex);
-                shader.SetTexture(kernelHandle, "Flow", flowTex);
-
-                shader.Dispatch(kernelHandle, Constants.WorldSize / threadX, Constants.WorldSize / threadY, 1);
+                shader.Dispatch(evaporationHandle, Constants.WorldSize / threadX, Constants.WorldSize / threadY, 1);
             }
 
             //for(int i = 0; i < 16; i++)
@@ -150,7 +154,44 @@ public class World : MonoBehaviour
 
             bytes = data.EncodeToPNG();
             File.WriteAllBytes(Application.dataPath + "/../WorldScaleFlow.png", bytes);
+
+            
         }
+    }
+
+    void Poisson(Texture2D worldMap)
+    {
+        Debug.Log("Starting Poisson...");
+        long time = DateTime.Now.Ticks;
+        PoissonDistribution dist = new PoissonDistribution((x, z, v) =>
+            worldMap.GetPixel((int)x, (int)z).r < 0.22f ? (
+            v < 0.95f ? v * 0.01f : v * 0.1f
+            ) : 1.0f
+            );
+
+        List<Vector3> poissonMap = PoissonGenerator.GeneratePoisson(Constants.WorldSize, Constants.WorldSize, 4.25f, 30.0f, dist, 30);
+
+        Color[] colorSet = new Color[(Constants.WorldSize) * (Constants.WorldSize)];
+
+        for (int i = 0; i < colorSet.Length; i++)
+        {
+            colorSet[i] = new Color(0, 0, 0, 0);
+        }
+
+        detailMap.SetPixels(colorSet);
+        detailMap.Apply();
+
+        foreach (Vector3 v in poissonMap)
+        {
+            float val = (v.z - 3.0f) / 30.0f;
+            detailMap.SetPixel((int)v.x, (int)v.y, new Color(val, 0, val));
+        }
+        detailMap.Apply();
+
+        byte[] bytes = detailMap.EncodeToPNG();
+        File.WriteAllBytes(Application.dataPath + "/../Poisson.png", bytes);
+        float seconds = (DateTime.Now.Ticks - time) / 10000000.0f;
+        Debug.Log("Poisson finished in " + seconds + " seconds!");
     }
 
     void GenerateData(int n, int m)
@@ -166,12 +207,12 @@ public class World : MonoBehaviour
                 return;
             for (int j = m * halfWorldSize; j < (m + 1) * halfWorldSize; j++)
             {
-                float rainMax = Mathf.Clamp01(noise.GetPerlin(i * 2.0f, j * 2.0f, 10) * 0.125f + 0.125f);
-                float evaporation = Mathf.Clamp01(noise.GetPerlin(i * 4.0f, j * 4.0f, 200) * 0.025f + 0.05f);
+                //float rainMax = Mathf.Clamp01(noise.GetPerlin(i / 16.0f, j / 16.0f, 10) * 0.125f + 0.25f);
+                //float evaporation = Mathf.Clamp01(noise.GetPerlin(i / 16.0f, j / 16.0f, 500) * 0.025f + 0.25f);
                 float h = GetHeight(i, j);
                 //if (noise.GetWhiteNoiseInt(i, j) > 0.999f)
                 //    rainMax = 1.0f;
-                dataColors[i + j * Constants.WorldSize] = new Color32((byte)(h * 255.0f), (byte)(evaporation * 255.0f), (byte)(rainMax * 255.0f), 255);
+                dataColors[i + j * Constants.WorldSize] = new Color32((byte)(h * 255.0f), 30, 35, 255);
             }
            Debug.Log("Generating world chunk " + (n + m * 4) + "... " + (int)((i - n * fourthWorldSize) / (fourthWorldSize / 100.0f)) + "%");
         }

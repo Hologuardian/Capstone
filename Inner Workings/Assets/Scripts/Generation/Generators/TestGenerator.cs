@@ -26,8 +26,8 @@ public class TestGenerator : ChunkGenerator
     const float octave6Value = 0.5f;
 
     const float octave3 = 0.0625f; //Reserved Biome Octave
-    const float octave3Value = 0.5f;
-    const float octave3Multiplier = 0.5f;
+    const float octave3Value = 0.3f;
+    const float octave3Multiplier = 0.3f;
 
     const float preBiomeEffect = 2.25f;
     const float postBiomeEffect = 0.33333333333f;
@@ -49,6 +49,8 @@ public class TestGenerator : ChunkGenerator
                 noiseH *= (noise.GetPerlinFractal((i + Constants.ChunkWidth * data.ChunkX) * octave4, (j + Constants.ChunkWidth * data.ChunkZ) * octave4) * octave4Multiplier + octave4Value);
                 noiseH *= (noise.GetPerlinFractal((i + Constants.ChunkWidth * data.ChunkX) * octave5, (j + Constants.ChunkWidth * data.ChunkZ) * octave5) * octave5Multiplier + octave5Value);
                 noiseH *= (noise.GetPerlinFractal((i + Constants.ChunkWidth * data.ChunkX) * octave6, (j + Constants.ChunkWidth * data.ChunkZ) * octave6) * octave5Multiplier + octave5Value);
+
+                noiseH += 20;
                 for (int k = 0; k < Constants.ChunkHeight + 1; k++)
                 {
                     //if (noiseH >= k - 2 && noiseH <= k)
@@ -56,9 +58,9 @@ public class TestGenerator : ChunkGenerator
                     {
                         uint color = 0;
 
-                        if (k > 20)
+                        if (k > 35.0f + noise.GetPerlin(i * 2.1f, j * 2.1f) * 3.0f)
                         {
-                            if (k >= 60)
+                            if (k >= 75.0f + noise.GetPerlin(i* 8.1f, j * 8.1f) * 2.0f)
                             {
                                 color = 0xEEEEFFFF;
                             }
@@ -70,13 +72,13 @@ public class TestGenerator : ChunkGenerator
                                 color += 255;
                             }
                         }
-                        //else if (k <= 10)
-                        //{
-                        //    color += ((uint)(255 - (noiseH / (float)Constants.ChunkHeight) * 255.0f) % 255) << 24;
-                        //    color += ((uint)(255 - (noiseH / (float)Constants.ChunkHeight) * 255.0f) % 255) << 16;
-                        //    color += ((uint)(225 - (noiseH / (float)Constants.ChunkHeight) * 255.0f) % 255) << 8;
-                        //    color += 255;
-                        //}
+                        else if (k <= 23)
+                        {
+                            color += ((uint)(255 - (noiseH / (float)Constants.ChunkHeight) * 255.0f) % 255) << 24;
+                            color += ((uint)(255 - (noiseH / (float)Constants.ChunkHeight) * 255.0f) % 255) << 16;
+                            color += ((uint)(225 - (noiseH / (float)Constants.ChunkHeight) * 255.0f) % 255) << 8;
+                            color += 255;
+                        }
                         else
                         {
                             color += 0 << 24;
@@ -88,15 +90,15 @@ public class TestGenerator : ChunkGenerator
                         //float noiseC = noise.GetGradient((i + Constants.ChunkWidth * n) * 10.0f, (k)* 10.0f, (j + Constants.ChunkWidth * m) * 10.0f);
                         data.values.Add(color);
                     }
-                    //else if (k <= (Constants.ChunkHeight + 1) / 32)
-                    //{
-                    //    uint color = 0;
-                    //    color += 0 << 24;
-                    //    color += 0 << 16;
-                    //    color += ((uint)(160 + (noiseH / (float)Constants.ChunkHeight) * 255.0f) % 255) << 8;
-                    //    color += 255;
-                    //    data.values.Add(color);
-                    //}
+                    else if (k <= 23)
+                    {
+                        uint color = 0;
+                        color += 0 << 24;
+                        color += 0 << 16;
+                        color += ((uint)(160 + (noiseH / (float)Constants.ChunkHeight) * 255.0f) % 255) << 8;
+                        color += 255;
+                        data.values.Add(color);
+                    }
                     else if (k <= 0)
                     {
                         uint color = 0;

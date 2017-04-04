@@ -34,8 +34,85 @@ public class ChunkManager : MonoBehaviour
     /**
      Required to be called in order to create thread pool, uses const definition for number of threads to be generated
     */
-    public void OnEnable()
+    public void Awake()
     {
+        KillThread = false;
+        if (this.enabled)
+        {
+            Debug.Log("Clearing chunk manager lists in Enable");
+            generatedChunk.Clear();
+            chunkMap.Clear();
+            updateMap.Clear();
+            updateGenerationMap.Clear();
+            lockMap.Clear();
+            chunkList.Clear();
+            deletionPool.Clear();
+            chunkUpdateQueue.Clear();
+            ThreadPool.Clear();
+            generationRequests.Clear();
+            finishedGeneration.Clear();
+            finishedUpdate.Clear();
+            Debug.Log("Finished clearing chunk manager lists in Enable");
+
+            //Debug.Log("Destroying chunk parent in chunk manager Enable");
+            //Destroy(chunkParent);
+            //Debug.Log("Finished destroying chunk parent in chunk manager Enable");
+            chunkParent = new GameObject("Chunk Parent");
+            Chunk.noise = new FastNoise(UnityEngine.Random.Range(0, int.MaxValue));
+
+            for (int n = 0; n < width / 2; n++)
+            {
+                for (int i = 1024 - n; i < n + 1024; i++)
+                {
+                    for (int j = 1024 - n; j < n + 1024; j++)
+                    {
+                        if (!chunkRequested.ContainsKey(Hash(i, j)))
+                            RequestChunk(i, j, new MarchingChunkMesher());
+                    }
+                }
+            }
+
+            StartCoroutine(CheckDeletionQueue());
+            StartCoroutine(CheckGenerationQueue());
+            StartCoroutine(CheckUpdateQueue());
+            Thread thread = new Thread(CheckUpdateMap);
+            thread.Start();
+
+            for (int i = 0; i < ThreadPoolSize; i++)
+            {
+                thread = new Thread(GenerateChunk);
+                thread.Start();
+                ThreadPool.Add(thread);
+            }
+            chunkParent.transform.position = new Vector3(-1024 * Constants.ChunkWidth, 0, -1024 * Constants.ChunkWidth);
+        }
+    }
+
+    public void OnDisable()
+    {
+        //if(chunkParent)
+        //{
+        //    Debug.Log("Destroying chunk parent in chunk manager Disable");
+        //    //int count = chunkParent.transform.childCount;
+        //    //for (int i = 0; i < count; i++)
+        //    //{
+        //    //    Debug.Log("Destroying chunk child " + i + " in chunk manager Disable");
+        //    //    Destroy(chunkParent.transform.GetChild(0).gameObject);
+        //    //    Debug.Log("Finished destroying chunk child " + i + " in chunk manager Disable");
+        //    //}
+
+        //    Destroy(chunkParent);
+        //    Debug.Log("Finished destroying chunk parent in chunk manager Disable");
+        //}
+
+        Debug.Log("Stopping chunk manager coroutines and thread in Disable");
+
+        StopAllCoroutines();
+
+        KillThread = true;
+        Debug.Log("Finished stopping chunk manager coroutines and thread in Disable");
+
+        Debug.Log("Clearing chunk manager lists in Disable");
         generatedChunk.Clear();
         chunkMap.Clear();
         updateMap.Clear();
@@ -48,39 +125,7 @@ public class ChunkManager : MonoBehaviour
         generationRequests.Clear();
         finishedGeneration.Clear();
         finishedUpdate.Clear();
-
-        chunkParent = new GameObject("Chunk Parent");
-        Chunk.noise = new FastNoise(UnityEngine.Random.Range(0, int.MaxValue));
-        StartCoroutine(CheckDeletionQueue());
-        StartCoroutine(CheckGenerationQueue());
-        StartCoroutine(CheckUpdateQueue());
-        Thread thread = new Thread(CheckUpdateMap);
-        thread.Start();
-        for (int i = 0; i < ThreadPoolSize; i++)
-        {
-            thread = new Thread(GenerateChunk);
-            thread.Start();
-            ThreadPool.Add(thread);
-        }
-        for (int n = 0; n < width / 2; n++)
-        {
-            for (int i = 1024 - n; i < n + 1024; i++)
-            {
-                for (int j = 1024 - n; j < n + 1024; j++)
-                {
-                    if (!chunkRequested.ContainsKey(Hash(i, j)))
-                        RequestChunk(i, j, new MarchingChunkMesher());
-                }
-            }
-        }
-        chunkParent.transform.position = new Vector3(-1024 * Constants.ChunkWidth, 0, -1024 * Constants.ChunkWidth);
-    }
-
-    public void OnDisable()
-    {
-        StopAllCoroutines();
-
-        KillThread = true;
+        Debug.Log("Finished clearing chunk manager lists in Disable");
     }
 
     /**
@@ -392,6 +437,17 @@ public class ChunkManager : MonoBehaviour
         + String.Format("Finished Gen: {0}\n", finishedGeneration.Size())
         + String.Format("Finished Update: {0}\n", finishedUpdate.Size())
         + String.Format("Ungenerated Updates: {0}\n", updateGenerationMap.Count);
+
+        if (!KillThread)
+        {
+            foreach (Thread t in ThreadPool)
+            {
+                if (!t.IsAlive)
+                {
+                    t.Start();
+                }
+            }
+        }
     }
 
     private IEnumerator CheckGenerationQueue()

@@ -30,8 +30,8 @@ void Rainfall(uint3 id : SV_DispatchThreadID)
 void FlowSetup (uint3 id : SV_DispatchThreadID)
 {
     float deltaTime = 0.05f;
-    float A = 2.0f;
-    float l = 1.0;
+    float A = 1.0f;
+    float l = 1.0f;
 
     float2 deltaHeightR2 = (Result[id.xy].rb) - (Result[id.xy + float2(1, 0)].rb);
     float deltaHeightR = abs(deltaHeightR2.x) + abs(deltaHeightR2.y);
@@ -60,13 +60,13 @@ void FlowSetup (uint3 id : SV_DispatchThreadID)
 void WaterMotion(uint3 id : SV_DispatchThreadID)
 {
     float deltaTime = 0.05f;
-    float A = 2.0f;
-    float l = 1.0F;
+    float A = 1.0f;
+    float l = 1.0f;
 
-    float V = deltaTime * (Flow[id.xy + float2(1, 0)].z +
+    float V = deltaTime * ((Flow[id.xy + float2(1, 0)].z +
                            Flow[id.xy + float2(0, 1)].w +
                            Flow[id.xy + float2(-1, 0)].x +
-                           Flow[id.xy + float2(0, -1)].y -
+                           Flow[id.xy + float2(0, -1)].y) -
                            (Flow[id.xy].x + Flow[id.xy].y + Flow[id.xy].z + Flow[id.xy].w));
 
     float d2 = Result[id.xy].b + V / (l * l);

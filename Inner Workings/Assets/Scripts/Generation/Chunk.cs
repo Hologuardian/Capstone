@@ -68,7 +68,6 @@ public class Chunk : MonoBehaviour
         MeshFilter filter = gameObject.GetComponent<MeshFilter>();
         MeshCollider collider = gameObject.GetComponent<MeshCollider>();
         m.Clear();
-
         m.SetVertices(data.points);
         m.SetColors(data.colors);
         m.SetNormals(data.normals);
