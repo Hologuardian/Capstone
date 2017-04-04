@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\LookAt.cs" />
+    <Compile Include="Assets\Scripts\BarScript.cs" />
     <Compile Include="Assets\Scripts\ChunkParameters.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
     <Compile Include="Assets\Scripts\FPController.cs" />
@@ -130,12 +131,14 @@
     <Compile Include="Assets\Scripts\MenuScript\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\MenuScript\menuScript.cs" />
     <Compile Include="Assets\Scripts\MenuScript\musicSingleton.cs" />
+    <Compile Include="Assets\Scripts\PlayerHealth.cs" />
     <Compile Include="Assets\Scripts\PlayerInteraction.cs" />
     <Compile Include="Assets\Scripts\PlayerPausing.cs" />
     <Compile Include="Assets\Scripts\TriggerEnterForWorld.cs" />
     <Compile Include="Assets\Scripts\Visual\EffectManager.cs" />
     <Compile Include="Assets\Scripts\World\EnvironmentController.cs" />
     <Compile Include="Assets\Scripts\World\EnvironmentWeatherSystem.cs" />
+    <Compile Include="Assets\Scripts\hpStats.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Resources\Additive Distortion.shader" />
