@@ -18,8 +18,8 @@ public class TreeMemory : MonoBehaviour, Interactable
             SphereGenerated = true;
             GameObject obj = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             obj.transform.position = position;
-            SphereCollider collider = obj.AddComponent<SphereCollider>();
-            collider.radius = 1.5f;
+            SphereCollider collider = obj.GetComponent<SphereCollider>();
+            collider.radius = 1.0f;
 
             MeshRenderer rend = obj.GetComponent<MeshRenderer>();
             rend.material = Resources.Load<Material>("Oscillate");

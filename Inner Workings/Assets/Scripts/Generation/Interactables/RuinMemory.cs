@@ -9,6 +9,9 @@ public class RuinMemory : Interactable
     static int memoryIndex;
     const int numRuinMemories = 14;
 
+    public GameObject InteractableObject;
+    public GameObject InteractionSphere;
+
     public RuinMemory(Vector3 pos, float radius)
     {
         this.radius = radius;
@@ -29,8 +32,8 @@ public class RuinMemory : Interactable
             obj.GetComponent<Renderer>().enabled = false;
             obj.transform.SetParent(parent, false);
 
-            SphereCollider collider = obj.AddComponent<SphereCollider>();
-            collider.radius = 1.5f;
+            SphereCollider collider = obj.GetComponent<SphereCollider>();
+            collider.radius = 1.0f;
 
             GameObject obj2 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             SphereToggle toggle = obj2.AddComponent<SphereToggle>();
@@ -55,6 +58,9 @@ public class RuinMemory : Interactable
             SphereCollider trigger = obj2.GetComponent<SphereCollider>();
             trigger.isTrigger = true;
             trigger.radius = radius;
+
+            InteractableObject = obj;
+            InteractionSphere = obj2;
         }
     }
 
