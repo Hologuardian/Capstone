@@ -27,7 +27,7 @@ public class TestTreeDecorator : ChunkDecorator
                 int height = 0;
                 for (int k = 0; k < Constants.ChunkHeight; k++)
                 {
-                    if (!tree && shouldTree && k < 35 && k > 25)
+                    if (!tree && shouldTree && k < 35 && k > 23)
                     {
                         uint c = data.values[(i * (Constants.ChunkWidth + 1) * (Constants.ChunkHeight + 1) + j * (Constants.ChunkHeight + 1) + k)];
                         if (previous > 0 && c % 255 + (c >> 8) % 255 + (c >> 16) % 255 <= 0)

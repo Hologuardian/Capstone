@@ -29,6 +29,9 @@ public class RuinMemory : Interactable
             obj.GetComponent<Renderer>().enabled = false;
             obj.transform.SetParent(parent, false);
 
+            SphereCollider collider = obj.AddComponent<SphereCollider>();
+            collider.radius = 1.5f;
+
             GameObject obj2 = GameObject.CreatePrimitive(PrimitiveType.Sphere);
             SphereToggle toggle = obj2.AddComponent<SphereToggle>();
             obj2.transform.position = position;

@@ -35,7 +35,7 @@ public class InteractableBehaviour : MonoBehaviour
     {
         if(resetTimer <= 1.0f)
         {
-            resetTimer += 2.0f * Time.deltaTime;
+            resetTimer += 5.0f * Time.deltaTime;
         }
     }
 
