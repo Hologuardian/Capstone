@@ -44,7 +44,8 @@ public class InteractableBehaviour : MonoBehaviour
         interactor.Interact();
         if(interactor is RuinMemory)
         {
-            Destroy(gameObject, 0.16f);
+            ((RuinMemory)interactor).InteractableObject.SetActive(false);
+            ((RuinMemory)interactor).InteractionSphere.SetActive(false);
         }
     }
 }
