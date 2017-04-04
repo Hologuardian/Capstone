@@ -27,7 +27,7 @@ public class PlayerHealth : MonoBehaviour
 
         if (health.CurrVal < health.MaxVal)
         {
-            healSpeed = 2;
+            healSpeed = 5;
             health.CurrVal += healSpeed * Time.deltaTime;
         }
 

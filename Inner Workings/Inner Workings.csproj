@@ -87,16 +87,16 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\LookAt.cs" />
     <Compile Include="Assets\Scripts\BarScript.cs" />
     <Compile Include="Assets\Scripts\ChunkParameters.cs" />
     <Compile Include="Assets\Scripts\Constants.cs" />
+    <Compile Include="Assets\Scripts\DataStructures\BlockingDictionary.cs" />
+    <Compile Include="Assets\Scripts\DataStructures\BlockingQueue.cs" />
+    <Compile Include="Assets\Scripts\DataStructures\SimpleVertex.cs" />
     <Compile Include="Assets\Scripts\FPController.cs" />
     <Compile Include="Assets\Scripts\FastNoise\Character\Controller.cs" />
     <Compile Include="Assets\Scripts\FastNoise\Character\ThirdPersonController.cs" />
     <Compile Include="Assets\Scripts\FastNoise\FastNoise.cs" />
-    <Compile Include="Assets\Scripts\Generation\BlockingDictionary.cs" />
-    <Compile Include="Assets\Scripts\Generation\BlockingQueue.cs" />
     <Compile Include="Assets\Scripts\Generation\Buildings\CircleRuin.cs" />
     <Compile Include="Assets\Scripts\Generation\Buildings\PillarRuin.cs" />
     <Compile Include="Assets\Scripts\Generation\Buildings\StonehengeRuin.cs" />
@@ -113,6 +113,7 @@
     <Compile Include="Assets\Scripts\Generation\Decorators\CircleRuinDecorator.cs" />
     <Compile Include="Assets\Scripts\Generation\Decorators\TestTreeDecorator.cs" />
     <Compile Include="Assets\Scripts\Generation\Generators\CellTestGenerator.cs" />
+    <Compile Include="Assets\Scripts\Generation\Generators\PoissonGenerator.cs" />
     <Compile Include="Assets\Scripts\Generation\Generators\TestGenerator.cs" />
     <Compile Include="Assets\Scripts\Generation\Interactables\Interactable.cs" />
     <Compile Include="Assets\Scripts\Generation\Interactables\InteractableBehaviour.cs" />
@@ -120,8 +121,9 @@
     <Compile Include="Assets\Scripts\Generation\Interactables\SphereToggle.cs" />
     <Compile Include="Assets\Scripts\Generation\Interactables\TreeMemory.cs" />
     <Compile Include="Assets\Scripts\Generation\MarchingChunkMesher.cs" />
-    <Compile Include="Assets\Scripts\Generation\SimpleVertex.cs" />
     <Compile Include="Assets\Scripts\Generation\World.cs" />
+    <Compile Include="Assets\Scripts\Globals.cs" />
+    <Compile Include="Assets\Scripts\LookAt.cs" />
     <Compile Include="Assets\Scripts\Memory\Memory.cs" />
     <Compile Include="Assets\Scripts\Memory\MemoryManager.cs" />
     <Compile Include="Assets\Scripts\MemoryFlash.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Assets\Scripts\PlayerPausing.cs" />
     <Compile Include="Assets\Scripts\TriggerEnterForWorld.cs" />
     <Compile Include="Assets\Scripts\Visual\EffectManager.cs" />
+    <Compile Include="Assets\Scripts\VoxImporter.cs" />
     <Compile Include="Assets\Scripts\World\EnvironmentController.cs" />
     <Compile Include="Assets\Scripts\World\EnvironmentWeatherSystem.cs" />
     <Compile Include="Assets\Scripts\hpStats.cs" />

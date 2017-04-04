@@ -15,6 +15,6 @@ public class Credits : MonoBehaviour
         yield return new WaitForSeconds(waitTime);
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        SceneManager.LoadScene("Main Menu");
+        SceneManager.LoadScene("HubWorld");
     }
 }
