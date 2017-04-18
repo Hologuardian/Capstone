@@ -9,12 +9,9 @@ public class EffectManager : MonoBehaviour
     public EdgeDetection edgeDetect;
     public SunShafts shafts;
     public Camera cam;
-
-    // Use this for initialization
-    void Start ()
-    {
-	    	
-	}
+    public AudioSource sfx;
+    public AudioClip darkAmbient;
+    public AudioClip lightAmbient;
 
     public float interp = 0.0f;
     public AnimationCurve colorCorrect;
@@ -56,6 +53,8 @@ public class EffectManager : MonoBehaviour
     {
         if (collider.gameObject.tag == "Memory")
         {
+            sfx.clip = darkAmbient;
+            sfx.PlayDelayed(1.0f);
             colorState = false;
             StartCoroutine(DisableParticles());
         }
@@ -65,6 +64,8 @@ public class EffectManager : MonoBehaviour
     {
         if (collider.gameObject.tag == "Memory")
         {
+            sfx.clip = lightAmbient;
+            sfx.PlayDelayed(1.0f);
             colorState = true;
             StartCoroutine(EnableParticles());
         }

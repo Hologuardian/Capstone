@@ -87,6 +87,7 @@
     <Compile Include="Assets\Scripts\DataStructures\BlockingDictionary.cs" />
     <Compile Include="Assets\Scripts\DataStructures\BlockingQueue.cs" />
     <Compile Include="Assets\Scripts\DataStructures\SimpleVertex.cs" />
+    <Compile Include="Assets\Scripts\Entities\Wander.cs" />
     <Compile Include="Assets\Scripts\FPController.cs" />
     <Compile Include="Assets\Scripts\FastNoise\Character\Controller.cs" />
     <Compile Include="Assets\Scripts\FastNoise\Character\ThirdPersonController.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Assets\Scripts\Generation\ChunkUpdate.cs" />
     <Compile Include="Assets\Scripts\Generation\Decorators\BushDecorator.cs" />
     <Compile Include="Assets\Scripts\Generation\Decorators\CircleRuinDecorator.cs" />
+    <Compile Include="Assets\Scripts\Generation\Decorators\EnemyDecorator.cs" />
     <Compile Include="Assets\Scripts\Generation\Decorators\TestTreeDecorator.cs" />
     <Compile Include="Assets\Scripts\Generation\Generators\CellTestGenerator.cs" />
     <Compile Include="Assets\Scripts\Generation\Generators\PoissonGenerator.cs" />
@@ -140,6 +142,7 @@
   <ItemGroup>
     <None Include="Assets\Resources\Additive Distortion.shader" />
     <None Include="Assets\Resources\Multiple Distortion.shader" />
+    <None Include="Assets\Shaders\3DPerlin.shader" />
     <None Include="Assets\Shaders\Additive Distortion.shader" />
     <None Include="Assets\Shaders\ColoredGlobalFog.shader" />
     <None Include="Assets\Shaders\Erosion.compute" />

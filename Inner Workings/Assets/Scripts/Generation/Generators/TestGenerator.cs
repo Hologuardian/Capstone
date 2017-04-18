@@ -29,8 +29,8 @@ public class TestGenerator : ChunkGenerator
     const float octave3Value = 0.5f;
     const float octave3Multiplier = 0.5f;
 
-    const float preBiomeEffect = 2.15f;
-    const float postBiomeEffect = 0.333333333f;
+    const float preBiomeEffect = 1.7f;
+    const float postBiomeEffect = 0.333f;
 
     public override void generateChunkData(ChunkData data, FastNoise noise)
     {
@@ -42,9 +42,9 @@ public class TestGenerator : ChunkGenerator
                 noiseH *= (noise.GetPerlinFractal((i + Constants.ChunkWidth * data.ChunkX) * octave2, (j + Constants.ChunkWidth * data.ChunkZ) * octave2) * octave2Multiplier + octave2Value);
                 float biome = (noise.GetNoise((i + Constants.ChunkWidth * data.ChunkX) * octave3, (j + Constants.ChunkWidth * data.ChunkZ) * octave3) * octave3Multiplier + octave3Value);
                 biome *= preBiomeEffect;
-                biome = Mathf.Pow(biome, 2.0f);
+                biome = Mathf.Pow(biome, 3.0f);
                 biome *= postBiomeEffect;
-                biome = Mathf.Pow(biome, 0.5f);
+                biome = Mathf.Pow(biome, 0.33333333f);
                 noiseH *= biome;
                 noiseH *= (noise.GetPerlinFractal((i + Constants.ChunkWidth * data.ChunkX) * octave4, (j + Constants.ChunkWidth * data.ChunkZ) * octave4) * octave4Multiplier + octave4Value);
                 noiseH *= (noise.GetPerlinFractal((i + Constants.ChunkWidth * data.ChunkX) * octave5, (j + Constants.ChunkWidth * data.ChunkZ) * octave5) * octave5Multiplier + octave5Value);
@@ -58,9 +58,9 @@ public class TestGenerator : ChunkGenerator
                     {
                         uint color = 0;
 
-                        if (k > 35.0f + noise.GetPerlin(i * 2.1f, j * 2.1f) * 3.0f)
+                        if (k > 35.0f + noise.GetPerlin((i + data.ChunkX * Constants.ChunkWidth) * 2.1f, (j + data.ChunkZ * Constants.ChunkWidth) * 2.1f) * 3.0f)
                         {
-                            if (k >= 75.0f + noise.GetPerlin(i* 8.1f, j * 8.1f) * 2.0f)
+                            if (k >= 75.0f + noise.GetPerlin((i + data.ChunkX * Constants.ChunkWidth) * 8.1f, (j + data.ChunkZ * Constants.ChunkWidth) * 8.1f) * 2.0f)
                             {
                                 color = 0xEEEEFFFF;
                             }

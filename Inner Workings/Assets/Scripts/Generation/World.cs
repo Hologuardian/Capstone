@@ -165,11 +165,11 @@ public class World : MonoBehaviour
         long time = DateTime.Now.Ticks;
         PoissonDistribution dist = new PoissonDistribution((x, z, v) =>
             worldMap.GetPixel((int)x, (int)z).r < 0.22f ? (
-            v < 0.95f ? v * 0.01f : v * 0.1f
+            v < 0.95f ? v * 0.01f : 0.4f
             ) : 1.0f
             );
 
-        List<Vector3> poissonMap = PoissonGenerator.GeneratePoisson(Constants.WorldSize, Constants.WorldSize, 4.25f, 30.0f, dist, 30);
+        List<Vector3> poissonMap = PoissonGenerator.GeneratePoisson(Constants.WorldSize, Constants.WorldSize, 4.25f, 30.0f, dist, 90);
 
         Color[] colorSet = new Color[(Constants.WorldSize) * (Constants.WorldSize)];
 

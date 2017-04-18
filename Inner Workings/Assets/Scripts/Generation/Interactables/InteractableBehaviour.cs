@@ -35,7 +35,7 @@ public class InteractableBehaviour : MonoBehaviour
     {
         if(resetTimer <= 1.0f)
         {
-            resetTimer += 5.0f * Time.deltaTime;
+            resetTimer += 3.0f * Time.deltaTime;
         }
     }
 
@@ -45,7 +45,10 @@ public class InteractableBehaviour : MonoBehaviour
         if(interactor is RuinMemory)
         {
             ((RuinMemory)interactor).InteractableObject.SetActive(false);
-            ((RuinMemory)interactor).InteractionSphere.SetActive(false);
+            if (!((RuinMemory)interactor).InteractionSphere.Active)
+                ((RuinMemory)interactor).InteractionSphere.gameObject.SetActive(false);
+            else
+                ((RuinMemory)interactor).InteractionSphere.Exiting = true;
         }
     }
 }

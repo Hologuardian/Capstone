@@ -48,6 +48,7 @@ public class MarchingChunkMesher : ChunkMesher
     public override void MeshChunk(ChunkData data)
     {
         int n = 0;
+        int m = 0;
         int Corner, Vertex, VertexTest, Edge, Triangle, FlagIndex, EdgeFlags;
         float Offset;
         uint[] CubeValue = new uint[8];
@@ -136,15 +137,37 @@ public class MarchingChunkMesher : ChunkMesher
                         Vector3 BC = C - B;
                         Vector3 normal = Vector3.Cross(BC, AB);
 
+                        bool water = false;
+
                         for (Corner = 2; Corner >= 0; Corner--)
                         {
                             Vertex = TriangleConnectionTable[FlagIndex, 3 * Triangle + Corner];
+                            if (EdgeVertex[Vertex].b > 0 && EdgeVertex[Vertex].g == 0 && EdgeVertex[Vertex].r == 0)
+                                water = true;
+                        }
 
-                            data.colors.Add(new Color32(EdgeVertex[Vertex].r, EdgeVertex[Vertex].g, EdgeVertex[Vertex].b, EdgeVertex[Vertex].a));
-                            data.points.Add(new Vector3(EdgeVertex[Vertex].x, EdgeVertex[Vertex].y, EdgeVertex[Vertex].z));
-                            data.normals.Add(normal);
-                            data.triangles.Add(n);
-                            n++;
+                        for (Corner = 2; Corner >= 0; Corner--)
+                        {
+                            if(water)
+                            {
+                                Vertex = TriangleConnectionTable[FlagIndex, 3 * Triangle + Corner];
+
+                                data.WaterColors.Add(new Color32(EdgeVertex[Vertex].r, EdgeVertex[Vertex].g, EdgeVertex[Vertex].b, EdgeVertex[Vertex].a));
+                                data.WaterPoints.Add(new Vector3(EdgeVertex[Vertex].x, EdgeVertex[Vertex].y - 0.1f, EdgeVertex[Vertex].z));
+                                data.WaterNormals.Add(normal);
+                                data.WaterTriangles.Add(m);
+                                m++;
+                            }
+                            else
+                            {
+                                Vertex = TriangleConnectionTable[FlagIndex, 3 * Triangle + Corner];
+
+                                data.colors.Add(new Color32(EdgeVertex[Vertex].r, EdgeVertex[Vertex].g, EdgeVertex[Vertex].b, EdgeVertex[Vertex].a));
+                                data.points.Add(new Vector3(EdgeVertex[Vertex].x, EdgeVertex[Vertex].y, EdgeVertex[Vertex].z));
+                                data.normals.Add(normal);
+                                data.triangles.Add(n);
+                                n++;
+                            }
                         }
                     }
                 }
@@ -239,10 +262,27 @@ public class MarchingChunkMesher : ChunkMesher
                         Vector3 BC = C - B;
                         Vector3 normal = Vector3.Cross(BC, AB);
 
+                        bool water = false;
+
                         for (Corner = 2; Corner >= 0; Corner--)
                         {
                             Vertex = TriangleConnectionTable[FlagIndex, 3 * Triangle + Corner];
-                            vertices.Add(EdgeVertex[Vertex]);
+                            if (EdgeVertex[Vertex].b > 0 && EdgeVertex[Vertex].g == 0 && EdgeVertex[Vertex].r == 0)
+                                water = true;
+                        }
+
+                        for (Corner = 2; Corner >= 0; Corner--)
+                        {
+                            if(water)
+                            {
+                                Vertex = TriangleConnectionTable[FlagIndex, 3 * Triangle + Corner];
+                                vertices.Add(EdgeVertex[Vertex]);
+                            }
+                            else
+                            {
+                                Vertex = TriangleConnectionTable[FlagIndex, 3 * Triangle + Corner];
+                                vertices.Add(EdgeVertex[Vertex]);
+                            }
                         }
                     }
                 }

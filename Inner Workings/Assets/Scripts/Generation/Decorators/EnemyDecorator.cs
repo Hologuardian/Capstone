@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class CircleRuinDecorator : ChunkDecorator
+public class EnemyDecorator : ChunkDecorator
 {
     public ChunkManager manager;
     public List<CircleRuin> ruins;

@@ -10,6 +10,8 @@ public class SphereToggle : MonoBehaviour
     public Renderer toggle;
     //public ParticleSystem particles;
     public ParticleSystem rain;
+    public bool Exiting = false;
+    public bool Active = false;
 
     IEnumerator FadeIn()
     {
@@ -29,6 +31,12 @@ public class SphereToggle : MonoBehaviour
             toggle.material.SetColor("_Color", new Color(1.0f, 1.0f, 1.0f, i));
             yield return new WaitForSeconds(0.05f);
         }
+        if (Exiting)
+        {
+            Destroy(gameObject);
+            yield break;
+        }
+
         toggle.enabled = false;
     }
 
@@ -36,6 +44,7 @@ public class SphereToggle : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
+            Active = true;
             StartCoroutine(FadeIn());
         }
     }
@@ -44,6 +53,7 @@ public class SphereToggle : MonoBehaviour
     {
         if (collider.gameObject.tag == "Player")
         {
+            Active = false;
             StartCoroutine(FadeOut());
         }
     }

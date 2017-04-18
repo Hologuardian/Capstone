@@ -85,12 +85,13 @@ public class PoissonGenerator
 
     private static bool inRectangle(Vector2 point, int w, int cellSize, int gridSize)
     {
-        if (imageToGrid(point, w, cellSize) < gridSize)
+        int index = imageToGrid(point, w, cellSize);
+        if (index < gridSize && index > 0)
             return true;
         return false;
     }
 
-    private const int checkRadius = 5;
+    private const int checkRadius = 10;
     private static bool inNeighbourhood(Vector3[] grid, Vector2 point, int w, int h, float size, int cellSize)
     {
         int gridPoint = imageToGrid(point, w, cellSize);

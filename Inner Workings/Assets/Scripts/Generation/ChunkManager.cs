@@ -10,6 +10,7 @@ public class ChunkManager : MonoBehaviour
     private const int ThreadPoolSize = 6;
     private const int CheckNum = 1;
     public int width = 20;
+    private int CurrentWidth = 10;
     public GameObject chunkPrefab;
     public Text textBox;
 
@@ -60,14 +61,14 @@ public class ChunkManager : MonoBehaviour
             chunkParent = new GameObject("Chunk Parent");
             Chunk.noise = new FastNoise(UnityEngine.Random.Range(0, int.MaxValue));
 
-            for (int n = 0; n < width / 2; n++)
+            for (int n = 0; n < CurrentWidth / 2; n++)
             {
                 for (int i = 1024 - n; i < n + 1024; i++)
                 {
                     for (int j = 1024 - n; j < n + 1024; j++)
                     {
                         if (!chunkRequested.ContainsKey(Hash(i, j)))
-                            RequestChunk(i, j, new MarchingChunkMesher());
+                            RequestChunk(i, j, new MarchingChunkMesher(), Vector2.zero);
                     }
                 }
             }
@@ -75,6 +76,7 @@ public class ChunkManager : MonoBehaviour
             StartCoroutine(CheckDeletionQueue());
             StartCoroutine(CheckGenerationQueue());
             StartCoroutine(CheckUpdateQueue());
+            StartCoroutine(AddChunks());
             Thread thread = new Thread(CheckUpdateMap);
             thread.Start();
 
@@ -147,13 +149,13 @@ public class ChunkManager : MonoBehaviour
 
 	The x and z are the chunk position, which is the absolute position divided by the chunk width.
 	*/
-    public void RequestChunk(int x, int z, ChunkMesher mesher)
+    public void RequestChunk(int x, int z, ChunkMesher mesher, Vector2 offset)
     {
+        chunkRequested[Hash(x, z)] = true;
         Chunk chunk = Instantiate(chunkPrefab).GetComponent<Chunk>();
-        chunk.ThreadInitialize(x, z, mesher);
+        chunk.ThreadInitialize(x, z, mesher, offset);
         chunk.transform.SetParent(chunkParent.transform);
         generationRequests.Push(new ChunkRequest(ChunkRequest.RequestType.Generation, chunk));
-        chunkRequested[Hash(x, z)] = true;
     }
 
     /**
@@ -447,6 +449,32 @@ public class ChunkManager : MonoBehaviour
                     t.Start();
                 }
             }
+        }
+    }
+
+    private IEnumerator AddChunks()
+    {
+        while (CurrentWidth < width)
+        {
+            if (generationRequests.Size() == 0 && chunkUpdateQueue.Count == 0 && finishedGeneration.Size() == 0 && finishedUpdate.Size() == 0)
+            {
+                CurrentWidth += 2;
+                for (int n = 0; n < CurrentWidth / 2; n++)
+                {
+                    for (int i = 1024 - n; i < n + 1024; i++)
+                    {
+                        for (int j = 1024 - n; j < n + 1024; j++)
+                        {
+                            if (!chunkRequested.ContainsKey(Hash(i, j)))
+                            {
+                                RequestChunk(i, j, new MarchingChunkMesher(), new Vector2(-1024 * Constants.ChunkWidth, -1024 * Constants.ChunkWidth));
+                                //yield return new WaitForEndOfFrame();
+                            }
+                        }
+                    }
+                }
+            }
+            yield return new WaitForEndOfFrame();
         }
     }
 
